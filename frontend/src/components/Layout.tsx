@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { to: '/blocks', icon: '⛏', label: 'BLOCKS' },
   { to: '/earnings', icon: '₿', label: 'EARNINGS' },
   { to: '/notifications', icon: '⚑', label: 'ALERTS' },
+  { to: '/collective', icon: '🌊', label: '집계' },
   { to: '/config', icon: '⚙', label: 'CONFIG' },
 ];
 

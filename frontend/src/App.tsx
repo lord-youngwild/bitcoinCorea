@@ -8,6 +8,7 @@ import { Workers } from './pages/Workers';
 import { Blocks } from './pages/Blocks';
 import { Earnings } from './pages/Earnings';
 import { Notifications } from './pages/Notifications';
+import { Collective } from './pages/Collective';
 import { Boot } from './pages/Boot';
 import { useSSE } from './hooks/useSSE';
 import { useMetrics } from './hooks/useMetrics';
@@ -46,6 +47,7 @@ function AppInner() {
         <Route path="/blocks" element={<Blocks />} />
         <Route path="/earnings" element={<Earnings />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/collective" element={<Collective />} />
         <Route path="/config" element={<Boot />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

@@ -135,6 +135,20 @@ async def init_db() -> None:
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_metric_history_ts ON metric_history(timestamp)"
         )
+        # Sea of Corea Collective 참가자 테이블
+        # 수집 항목: 지갑 주소, 해시레이트 (채굴 통계)
+        # 비수집 항목: 개인 식별 정보 (이름은 선택적 표시용으로만 사용)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS sea_of_corea_participants (
+                wallet TEXT PRIMARY KEY,
+                display_name TEXT DEFAULT NULL,
+                is_public BOOLEAN DEFAULT FALSE,
+                registered_at TIMESTAMP NOT NULL,
+                last_verified_at TIMESTAMP DEFAULT NULL,
+                last_hashrate_ths REAL DEFAULT NULL,
+                last_hashrate_updated TIMESTAMP DEFAULT NULL
+            )
+        """)
         await db.commit()
     logging.info("Database initialized at %s", DB_PATH)
 

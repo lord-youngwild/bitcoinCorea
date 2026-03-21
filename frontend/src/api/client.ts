@@ -276,6 +276,55 @@ export function batchFetch<T>(path: string): Promise<T> {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Sea of Corea Collective API
+// ---------------------------------------------------------------------------
+
+export interface CollectiveRegisterPayload {
+  wallet: string;
+  display_name?: string;
+  is_public?: boolean;
+}
+
+export interface CollectiveRegisterResponse {
+  ok: boolean;
+  message: string;
+  wallet: string;
+}
+
+export interface CollectiveParticipant {
+  wallet: string;
+  display_name: string | null;
+  is_public: boolean;
+  registered_at: string;
+  last_verified_at: string | null;
+}
+
+export interface CollectiveStatsResponse {
+  total_participants: number;
+  active_participants: number;
+  total_hashrate: number;
+  total_hashrate_unit: string;
+  public_participants: Array<{
+    display_name: string;
+    hashrate: number;
+    hashrate_unit: string;
+  }>;
+  fetched_at: string;
+}
+
+export const fetchCollectiveStats = () =>
+  get<CollectiveStatsResponse>('/collective/stats');
+
+export const registerCollective = (payload: CollectiveRegisterPayload) =>
+  post<CollectiveRegisterResponse>('/collective/register', payload);
+
+export const unregisterCollective = (wallet: string) =>
+  del<{ ok: boolean; message: string; wallet: string }>(`/collective/unregister/${encodeURIComponent(wallet)}`);
+
+export const checkCollectiveParticipant = (wallet: string) =>
+  get<CollectiveParticipant>(`/collective/participant/${encodeURIComponent(wallet)}`);
+
 // Client error reporting
 export interface ClientErrorPayload {
   message: string;

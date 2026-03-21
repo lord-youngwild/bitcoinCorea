@@ -20,6 +20,7 @@ from app.routers import (
     batch,
     blocks,
     client_errors,
+    collective,
     config_routes,
     earnings,
     exchange,
@@ -137,6 +138,7 @@ app.include_router(exchange.router, prefix=api_prefix, tags=["exchange"])
 app.include_router(client_errors.router, prefix=api_prefix, tags=["client-errors"])
 app.include_router(worker_settings.router, prefix=api_prefix, tags=["worker-settings"])
 app.include_router(batch.router, prefix=api_prefix, tags=["system"])
+app.include_router(collective.router, prefix=api_prefix, tags=["collective"])
 
 # Serve built frontend (if present) with SPA fallback
 _frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
