@@ -15,10 +15,6 @@ const HashrateChart = lazy(() =>
   import('../components/HashrateChart').then((module) => ({ default: module.HashrateChart })),
 );
 
-// DATUM Gateway: pool_fees between 0.9% and 1.3% = connected via DATUM protocol
-function isDatumConnected(poolFeesPct: number): boolean {
-  return poolFeesPct >= 0.9 && poolFeesPct <= 1.3;
-}
 
 export const Dashboard: React.FC = () => {
   const { formatFiat, formatFiatSigned } = useCurrency();
@@ -65,7 +61,6 @@ export const Dashboard: React.FC = () => {
     );
   }
 
-  const datumActive = isDatumConnected(metrics.pool_fees_percentage);
   const hr60 = autoScaleHashrate(metrics.hashrate_60sec, metrics.hashrate_60sec_unit);
   const hr10 = autoScaleHashrate(metrics.hashrate_10min, metrics.hashrate_10min_unit);
   const hr3 = autoScaleHashrate(metrics.hashrate_3hr, metrics.hashrate_3hr_unit);
@@ -78,25 +73,6 @@ export const Dashboard: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
         <h1 style={{ fontSize: '32px', letterSpacing: '4px' }}>MINING DASHBOARD</h1>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          {/* DATUM Gateway badge */}
-          <span
-            className={`badge ${datumActive ? 'badge-online' : 'badge-offline'}`}
-            style={{ fontSize: '12px', padding: '4px 12px' }}
-          >
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: datumActive ? 'var(--color-success)' : 'var(--color-error)',
-                display: 'inline-block',
-                boxShadow: datumActive ? '0 0 6px var(--color-success)' : 'none',
-                animation: datumActive ? 'pulse-glow 2s infinite' : 'none',
-                marginRight: '6px',
-              }}
-            />
-            DATUM {datumActive ? 'CONNECTED' : 'OFFLINE'}
-          </span>
           {metrics.low_hashrate_mode && (
             <span
               className="badge badge-warning"

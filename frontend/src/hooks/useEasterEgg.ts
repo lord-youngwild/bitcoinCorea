@@ -46,7 +46,7 @@ export function useEasterEgg(
       : theme === 'matrix'
         ? 'Entering the Matrix...'
         : theme === 'deepsea'
-          ? 'Plunging into DeepSea!'
+          ? 'Diving into Sea of Corea! 🌊'
           : 'Embracing Bitcoin vibes!';
 
     setState((prev) => ({

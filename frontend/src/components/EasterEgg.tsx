@@ -43,8 +43,8 @@ const STYLE = `
   pointer-events: none;
 }
 .easter-egg-overlay.deepsea {
-  background: rgba(0, 20, 40, 0.92);
-  border: 2px solid #0088cc;
+  background: rgba(0, 18, 30, 0.93);
+  border: 2px solid #00b4d8;
 }
 .easter-egg-overlay.bitcoin {
   background: rgba(20, 12, 0, 0.92);
@@ -62,7 +62,7 @@ const STYLE = `
   margin-bottom: 16px;
   z-index: 1;
 }
-.easter-egg-overlay.deepsea .easter-egg-title { color: #0088cc; text-shadow: 0 0 20px #0088cc; }
+.easter-egg-overlay.deepsea .easter-egg-title { color: #00b4d8; text-shadow: 0 0 20px #00b4d8; }
 .easter-egg-overlay.bitcoin .easter-egg-title { color: #f7931a; text-shadow: 0 0 20px #f7931a; }
 .easter-egg-overlay.matrix  .easter-egg-title { color: #39ff14; text-shadow: 0 0 20px #39ff14; }
 
@@ -75,7 +75,7 @@ const STYLE = `
   z-index: 1;
   padding: 0 16px;
 }
-.easter-egg-overlay.deepsea .easter-egg-quote { color: #a0d4f5; }
+.easter-egg-overlay.deepsea .easter-egg-quote { color: #90e0ef; }
 .easter-egg-overlay.bitcoin .easter-egg-quote { color: #ffd580; }
 .easter-egg-overlay.matrix  .easter-egg-quote { color: #39ff14; }
 

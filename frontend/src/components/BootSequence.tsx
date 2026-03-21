@@ -10,7 +10,7 @@ type BootEntry = [string, number, Status];
 
 const BOOT_SCRIPT: BootEntry[] = [
   // Phase 1 — System init
-  ['DEEPSEA DASHBOARD v2.0', 300, 'info'],
+  ['SEA OF COREA v2.0', 300, 'info'],
   ['KERNEL LOADED — ARM64 / DARWIN 25.3.0', 150, 'ok'],
   ['INITIALIZING RUNTIME ENVIRONMENT...', 250, 'ok'],
   ['MOUNTING ENCRYPTED VOLUMES...', 200, 'ok'],
@@ -38,13 +38,13 @@ const BOOT_SCRIPT: BootEntry[] = [
   // Phase 5 — Display
   ['RENDERING CRT PHOSPHOR OVERLAY...', 200, 'ok'],
   ['SCANLINE GENERATOR: 2px / 60Hz', 120, 'ok'],
-  ['THEME ENGINE: DEEPSEA / BITCOIN / MATRIX', 150, 'ok'],
+  ['THEME ENGINE: SEA OF COREA / BITCOIN / MATRIX', 150, 'ok'],
   ['AUDIO SUBSYSTEM: 8 TRACKS LOADED', 130, 'ok'],
 
   // Phase 6 — Final checks
   ['RUNNING SELF-DIAGNOSTICS...', 400, 'ok'],
   ['ALL SYSTEMS NOMINAL', 200, 'done'],
-  ['SYSTEM READY — DIVE DEEP ⚓', 0, 'done'],
+  ['SYSTEM READY — Sea of Corea에 오신 것을 환영합니다 🌊', 0, 'done'],
 ];
 
 /* ── Status colors ────────────────────────────────────────────── */
@@ -139,7 +139,7 @@ export const BootSequence: React.FC<Props> = ({ onComplete }) => {
           letterSpacing: '4px',
         }}
       >
-        ⚓ DEEPSEA
+        🌊 SEA OF COREA
       </div>
 
       {/* Progress bar */}

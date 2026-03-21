@@ -82,7 +82,7 @@ function showBlockCelebration() {
   const CONFETTI_COLORS = [
     '#f7931a', // bitcoin orange
     '#00cc66', // green
-    '#0088cc', // deepsea blue
+    '#00b4d8', // sea of corea teal
     '#ffaa00', // gold
     '#ff4444', // red
     '#ffffff',

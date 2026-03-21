@@ -19,7 +19,7 @@ const NAV_LINKS = [
   { to: '/blocks', icon: '⛏', label: 'BLOCKS' },
   { to: '/earnings', icon: '₿', label: 'EARNINGS' },
   { to: '/notifications', icon: '⚑', label: 'ALERTS' },
-  { to: '/collective', icon: '🌊', label: '집계' },
+  { to: '/collective', icon: '🌊', label: 'SoC' },
   { to: '/config', icon: '⚙', label: 'CONFIG' },
 ];
 
@@ -119,7 +119,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             textShadow: '0 0 10px var(--primary-glow)',
             letterSpacing: '3px',
           }}>
-            ⚓ DEEPSEA
+            🌊 SEA OF COREA
           </span>
         </div>
         {NAV_LINKS.map((link) => (
@@ -228,7 +228,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             textShadow: '0 0 10px var(--primary-glow)',
             letterSpacing: '3px',
           }}>
-            ⚓ DEEPSEA
+            🌊 SEA OF COREA
           </span>
         </NavLink>
 
@@ -316,9 +316,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
         gridTemplateColumns: '1fr auto 1fr',
         alignItems: 'center',
       }}>
-        <span>DEEPSEA DASHBOARD v2.0.3</span>
+        <span>SEA OF COREA v2.0.3</span>
         <a
-          href="https://x.com/DJObleezy"
+          href="https://x.com/PromenadeCastle"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -330,7 +330,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             letterSpacing: '1px',
           }}
         >
-          MADE BY @DJO₿LEEZY
+          BITCOIN CASTLE PROMENADE
         </a>
         <span style={{
           color: sseConnected ? 'var(--color-success)' : 'var(--color-warning)',

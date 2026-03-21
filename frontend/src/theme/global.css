@@ -1,23 +1,23 @@
 /* ============================================================
-   DeepSea Dashboard — Global CRT Retro Stylesheet
+   Sea of Corea — Global CRT Retro Stylesheet
    ============================================================ */
 
 /* ---- Google Fonts fallback (also loaded in index.html) ---- */
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
 
-/* ---- CSS Custom Properties (defaults: DeepSea theme) ---- */
+/* ---- CSS Custom Properties (defaults: Sea of Corea theme) ---- */
 :root {
-  --primary:       #0088cc;
-  --primary-dim:   #005580;
-  --primary-glow:  rgba(0, 136, 204, 0.4);
-  --bg:            #0a0f14;
-  --bg-card:       #0d1a24;
-  --bg-hover:      #112233;
-  --text:          #a0d4f5;
-  --text-dim:      #4a7a9b;
-  --border:        #0055aa;
-  --border-glow:   rgba(0, 136, 204, 0.3);
-  --scanline:      rgba(0, 136, 204, 0.04);
+  --primary:       #00b4d8;
+  --primary-dim:   #0077a8;
+  --primary-glow:  rgba(0, 180, 216, 0.45);
+  --bg:            #060d12;
+  --bg-card:       #0b1a22;
+  --bg-hover:      #0f2535;
+  --text:          #90e0ef;
+  --text-dim:      #4a8fa8;
+  --border:        #006a8a;
+  --border-glow:   rgba(0, 180, 216, 0.3);
+  --scanline:      rgba(0, 180, 216, 0.04);
 
   --font-mono:  'Share Tech Mono', 'Courier New', monospace;
   --font-vt323: 'VT323', monospace;

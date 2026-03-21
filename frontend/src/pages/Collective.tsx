@@ -103,7 +103,7 @@ export const Collective: React.FC = () => {
             textTransform: 'uppercase',
             color: 'var(--text-dim)',
           }}>
-            ◈ 실시간 커뮤니티 통계
+            ◈ 실시간 조합 통계
           </div>
           <button
             onClick={loadStats}

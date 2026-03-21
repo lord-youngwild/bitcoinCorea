@@ -124,7 +124,7 @@ export const InstallPrompt: React.FC = () => {
       `}</style>
       <div className="install-prompt" role="complementary" aria-label="Install app prompt">
         <span style={{ fontSize: '18px' }}>📱</span>
-        <span className="install-prompt-text">Install DeepSea Dashboard</span>
+        <span className="install-prompt-text">Install Sea of Corea</span>
         <button className="install-prompt-btn" onClick={handleInstall}>
           Install
         </button>

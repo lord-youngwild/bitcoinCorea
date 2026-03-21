@@ -1,7 +1,7 @@
 {
-  "name": "DeepSea Dashboard",
-  "short_name": "DeepSea",
-  "description": "Bitcoin mining monitoring dashboard — hashrate, workers, earnings, blocks",
+  "name": "Sea of Corea",
+  "short_name": "Sea of Corea",
+  "description": "Sea of Corea — Bitcoin mining monitoring dashboard — hashrate, workers, earnings, blocks",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0e14",

@@ -70,7 +70,10 @@ def save_config(data: dict[str, Any]) -> None:
             f.flush()
             os.fsync(f.fileno())
         tmp_path.replace(CONFIG_PATH)
-        os.chmod(CONFIG_PATH, 0o600)
+        try:
+            os.chmod(CONFIG_PATH, 0o600)
+        except OSError:
+            pass  # bind-mounted file owned by host user — chmod not permitted
     except OSError:
         # Bind-mounted files can't be atomically replaced — write in place
         tmp_path.unlink(missing_ok=True)
@@ -79,7 +82,10 @@ def save_config(data: dict[str, Any]) -> None:
             json.dump(merged, f, indent=2)
             f.flush()
             os.fsync(f.fileno())
-        os.chmod(CONFIG_PATH, 0o600)
+        try:
+            os.chmod(CONFIG_PATH, 0o600)
+        except OSError:
+            pass  # bind-mounted file owned by host user — chmod not permitted
 
 
 def get_wallet() -> str:
