@@ -71,7 +71,7 @@ export const Dashboard: React.FC = () => {
 
       {/* Page title + status badges */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-        <h1 style={{ fontSize: '32px', letterSpacing: '4px' }}>MINING DASHBOARD</h1>
+        <h1 style={{ fontSize: '14px', letterSpacing: '2px', lineHeight: '2' }}>MINING DASHBOARD</h1>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           {metrics.low_hashrate_mode && (
             <span

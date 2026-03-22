@@ -133,29 +133,39 @@ export const PayoutSummary: React.FC<Props> = ({ metrics }) => {
         </div>
       </div>
 
-      {/* Progress bar toward 0.01 BTC threshold (always shown) */}
+      {/* Pixel block progress bar toward 0.01 BTC threshold */}
       <div style={{ marginBottom: '14px' }}>
-        <div className="flex justify-between" style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '4px' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between',
+          fontFamily: 'var(--font-pixel)', fontSize: '7px',
+          color: 'var(--text-dim)', marginBottom: '5px',
+        }}>
           <span>{unpaidBtc.toFixed(8)} BTC</span>
           <span>{PAYOUT_THRESHOLD_BTC} BTC</span>
         </div>
+        {/* Segmented pixel HP bar */}
         <div style={{
-          height: '8px',
-          background: 'var(--border)',
-          borderRadius: '4px',
-          overflow: 'hidden',
+          display: 'flex', gap: '2px', height: '14px', padding: '2px',
+          background: 'var(--bg)', border: '3px solid var(--border)',
+          boxShadow: 'inset 2px 2px 0 0 rgba(0,0,0,0.5)',
         }}>
-          <div style={{
-            height: '100%',
-            width: `${payoutPct}%`,
-            background: payoutPct >= 90 ? 'var(--color-success)' : 'var(--primary)',
-            borderRadius: '4px',
-            boxShadow: payoutPct >= 90 ? '0 0 8px var(--color-success)' : '0 0 6px var(--primary-glow)',
-            transition: 'width 0.5s ease',
-          }} />
+          {Array.from({ length: 20 }).map((_, i) => {
+            const filled = i < Math.round((payoutPct / 100) * 20);
+            const color = payoutPct >= 90 ? 'var(--color-success)' : 'var(--primary)';
+            return (
+              <div key={i} style={{
+                flex: 1, height: '100%',
+                background: filled ? color : 'rgba(255,255,255,0.04)',
+                boxShadow: filled ? `0 0 4px ${color}` : 'none',
+              }} />
+            );
+          })}
         </div>
-        <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '3px', textAlign: 'center' }}>
-          {payoutPct.toFixed(1)}% to payout
+        <div style={{
+          fontFamily: 'var(--font-pixel)', fontSize: '7px',
+          color: 'var(--text-dim)', marginTop: '4px', textAlign: 'center',
+        }}>
+          {payoutPct.toFixed(1)}% TO PAYOUT
         </div>
       </div>
 

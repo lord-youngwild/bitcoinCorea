@@ -10,8 +10,12 @@ export const ThemeToggle: React.FC = () => {
     <button
       onClick={cycleTheme}
       className="btn"
-      title={`Current theme: ${def.label}. Click to cycle.`}
-      style={{ fontSize: '13px', padding: '4px 10px' }}
+      title={`Theme: ${def.label}. Click to cycle.`}
+      style={{
+        fontSize: '8px',
+        padding: '6px 10px',
+        letterSpacing: '0px',
+      }}
     >
       {def.label}
     </button>

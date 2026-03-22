@@ -14,13 +14,13 @@ import { UpdatePrompt } from './UpdatePrompt';
 import { InstallPrompt } from './InstallPrompt';
 
 const NAV_LINKS = [
-  { to: '/dashboard', icon: '◈', label: 'DASHBOARD' },
-  { to: '/workers', icon: '⛭', label: 'WORKERS' },
-  { to: '/blocks', icon: '⛏', label: 'BLOCKS' },
-  { to: '/earnings', icon: '₿', label: 'EARNINGS' },
-  { to: '/notifications', icon: '⚑', label: 'ALERTS' },
-  { to: '/collective', icon: '🌊', label: 'SoC' },
-  { to: '/config', icon: '⚙', label: 'CONFIG' },
+  { to: '/dashboard', icon: '▣', label: 'DASHBOARD' },
+  { to: '/workers',   icon: '⚙', label: 'WORKERS' },
+  { to: '/blocks',    icon: '⛏', label: 'BLOCKS' },
+  { to: '/earnings',  icon: '₿', label: 'EARNINGS' },
+  { to: '/notifications', icon: '!', label: 'ALERTS' },
+  { to: '/collective', icon: '~', label: 'SoC' },
+  { to: '/config',    icon: '*', label: 'CONFIG' },
 ];
 
 interface Props {
@@ -36,10 +36,8 @@ export const Layout: React.FC<Props> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Close menu on route change
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
-  // Close on escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
     window.addEventListener('keydown', onKey);
@@ -54,223 +52,140 @@ export const Layout: React.FC<Props> = ({ children }) => {
       {theme === 'sea' && <UnderwaterBubbles />}
       {theme === 'matrix' && <MatrixRain />}
 
-      {/* CSS for responsive nav */}
       <style>{`
-        .nav-desktop { display: flex; }
+        /* ---- Nav responsive ---- */
+        .nav-desktop  { display: flex; }
         .nav-hamburger { display: none; }
-        .nav-drawer { display: none; }
-        .nav-overlay { display: none; }
+        .nav-drawer   { display: none; }
+        .nav-overlay  { display: none; }
+
+        /* ---- Pixel nav item ---- */
+        .px-nav-item {
+          font-family: var(--font-pixel);
+          font-size: 9px;
+          text-transform: uppercase;
+          letter-spacing: 0px;
+          color: var(--text-dim);
+          text-decoration: none;
+          padding: 7px 10px;
+          border: 2px solid transparent;
+          white-space: nowrap;
+          flex-shrink: 0;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          position: relative;
+          transition: none;
+          line-height: 1.4;
+        }
+        .px-nav-item:hover {
+          color: var(--primary);
+          border-color: var(--border);
+          background: var(--bg-hover);
+          text-shadow: 0 0 8px var(--primary-glow);
+        }
+        .px-nav-item.active {
+          color: var(--primary);
+          border: 2px solid var(--primary);
+          background: var(--bg-hover);
+          text-shadow: 0 0 8px var(--primary-glow);
+          box-shadow:
+            inset 2px 2px 0 0 rgba(255,255,255,0.06),
+            2px 2px 0 0 rgba(0,0,0,0.5);
+        }
+        .px-nav-item.active::before {
+          content: '▶ ';
+          color: var(--primary);
+          font-size: 8px;
+        }
+
+        /* ---- Notification dot ---- */
+        .notif-dot {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          background: var(--color-error);
+          color: #fff;
+          font-family: var(--font-pixel);
+          font-size: 7px;
+          padding: 1px 3px;
+          border-radius: 0;
+          border: 1px solid rgba(0,0,0,0.5);
+          line-height: 1.2;
+          min-width: 14px;
+          text-align: center;
+        }
 
         @media (max-width: 768px) {
-          .nav-desktop { display: none !important; }
+          .nav-desktop   { display: none !important; }
           .nav-hamburger { display: flex !important; }
           .nav-drawer {
             display: flex !important;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 260px;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 240px; height: 100vh;
             background: var(--bg-card);
-            border-right: 1px solid var(--border);
+            border-right: 4px solid var(--primary);
             flex-direction: column;
-            padding: 16px 0;
+            padding: 0;
             z-index: 1001;
             transform: translateX(-100%);
-            transition: transform 0.25s ease;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+            transition: transform 0.2s steps(4);
+            box-shadow: 4px 0 0 0 rgba(0,0,0,0.8);
           }
           .nav-drawer.open { transform: translateX(0); }
           .nav-overlay {
             display: block;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s;
+            transition: opacity 0.15s;
           }
-          .nav-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-          }
+          .nav-overlay.open { opacity: 1; pointer-events: auto; }
+          .px-nav-item { width: 100%; font-size: 9px; padding: 12px 16px; }
         }
+
         nav::-webkit-scrollbar { display: none; }
       `}</style>
 
       {/* Mobile overlay */}
-      <div
-        className={`nav-overlay ${menuOpen ? 'open' : ''}`}
-        onClick={() => setMenuOpen(false)}
-      />
+      <div className={`nav-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)} />
 
       {/* Mobile drawer */}
       <div className={`nav-drawer ${menuOpen ? 'open' : ''}`}>
+        {/* Drawer header */}
         <div style={{
-          padding: '8px 20px 20px',
-          borderBottom: '1px solid var(--border)',
-          marginBottom: '8px',
+          padding: '14px 16px',
+          borderBottom: '4px solid var(--border)',
+          background: 'var(--bg)',
         }}>
-          <span style={{
-            fontFamily: 'var(--font-vt323)',
-            fontSize: '28px',
+          <div style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: '10px',
             color: 'var(--primary)',
-            textShadow: '0 0 10px var(--primary-glow)',
-            letterSpacing: '3px',
+            textShadow: '2px 2px 0 rgba(0,0,0,0.8), 0 0 10px var(--primary-glow)',
+            letterSpacing: '1px',
+            lineHeight: '1.8',
           }}>
-            🌊 SEA OF COREA
-          </span>
-        </div>
-        {NAV_LINKS.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            style={({ isActive }) => ({
-              fontFamily: 'var(--font-mono)',
-              fontSize: '15px',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              color: isActive ? 'var(--primary)' : 'var(--text-dim)',
-              textDecoration: 'none',
-              padding: '12px 20px',
-              background: isActive ? 'var(--bg-hover)' : 'transparent',
-              borderLeft: isActive ? '3px solid var(--primary)' : '3px solid transparent',
-              textShadow: isActive ? '0 0 6px var(--primary-glow)' : 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              position: 'relative',
-            })}
-          >
-            <span style={{ fontSize: '18px', width: '24px', textAlign: 'center' }}>{link.icon}</span>
-            {link.label}
-            {link.to === '/notifications' && unreadCount > 0 && (
-              <span style={{
-                background: 'var(--color-error)',
-                color: '#fff',
-                fontSize: '10px',
-                borderRadius: '8px',
-                padding: '0 5px',
-                marginLeft: 'auto',
-              }}>
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
-            )}
-          </NavLink>
-        ))}
-        <div style={{ marginTop: 'auto', padding: '16px 20px', borderTop: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span style={{
-              width: '8px', height: '8px', borderRadius: '50%',
-              background: sseConnected ? 'var(--color-success)' : 'var(--color-warning)',
-              boxShadow: sseConnected ? '0 0 8px var(--color-success)' : 'none',
-            }} />
-            <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
-              {sseConnected ? 'LIVE FEED CONNECTED' : 'CONNECTING...'}
-            </span>
+            🌊 SEA OF<br />COREA
           </div>
-          <AudioPlayer />
         </div>
-      </div>
 
-      {/* Header */}
-      <header style={{
-        borderBottom: '1px solid var(--border)',
-        background: 'var(--bg-card)',
-        padding: '0 16px',
-        display: 'flex',
-        alignItems: 'center',
-        minHeight: '56px',
-        gap: '12px',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        boxShadow: '0 2px 12px var(--border-glow)',
-      }}>
-        {/* Hamburger — mobile only */}
-        <button
-          className="nav-hamburger"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '4px',
-            flexDirection: 'column',
-            gap: '4px',
-            flexShrink: 0,
-          }}
-        >
-          <span style={{
-            width: '20px', height: '2px', background: 'var(--primary)',
-            borderRadius: '1px', transition: 'transform 0.2s',
-            transform: menuOpen ? 'rotate(45deg) translateY(6px)' : 'none',
-          }} />
-          <span style={{
-            width: '20px', height: '2px', background: 'var(--primary)',
-            borderRadius: '1px', transition: 'opacity 0.2s',
-            opacity: menuOpen ? 0 : 1,
-          }} />
-          <span style={{
-            width: '20px', height: '2px', background: 'var(--primary)',
-            borderRadius: '1px', transition: 'transform 0.2s',
-            transform: menuOpen ? 'rotate(-45deg) translateY(-6px)' : 'none',
-          }} />
-        </button>
-
-        <NavLink to="/dashboard" style={{ textDecoration: 'none', flexShrink: 0 }}>
-          <span style={{
-            fontFamily: 'var(--font-vt323)',
-            fontSize: '28px',
-            color: 'var(--primary)',
-            textShadow: '0 0 10px var(--primary-glow)',
-            letterSpacing: '3px',
-          }}>
-            🌊 SEA OF COREA
-          </span>
-        </NavLink>
-
-        {/* Desktop nav */}
-        <nav className="nav-desktop" style={{
-          gap: '2px',
-          flex: 1,
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          minWidth: 0,
-        }}>
+        {/* Drawer nav items */}
+        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto', padding: '8px 0' }}>
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
-              style={({ isActive }) => ({
-                fontFamily: 'var(--font-mono)',
-                fontSize: '13px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                color: isActive ? 'var(--primary)' : 'var(--text-dim)',
-                textDecoration: 'none',
-                padding: '6px 10px',
-                borderRadius: '4px',
-                background: isActive ? 'var(--bg-hover)' : 'transparent',
-                border: isActive ? '1px solid var(--border)' : '1px solid transparent',
-                textShadow: isActive ? '0 0 6px var(--primary-glow)' : 'none',
-                position: 'relative',
-                whiteSpace: 'nowrap',
-                flexShrink: 0,
-              })}
+              className={({ isActive }) => `px-nav-item${isActive ? ' active' : ''}`}
             >
-              {link.icon} {link.label}
+              <span style={{ fontSize: '12px', width: '16px', textAlign: 'center' }}>{link.icon}</span>
+              {link.label}
               {link.to === '/notifications' && unreadCount > 0 && (
-                <span style={{
-                  position: 'absolute', top: '2px', right: '2px',
-                  background: 'var(--color-error)', color: '#fff',
-                  fontSize: '10px', borderRadius: '8px',
-                  padding: '0 4px', minWidth: '14px', textAlign: 'center',
-                }}>
+                <span className="notif-dot" style={{ position: 'relative', top: 'auto', right: 'auto', marginLeft: 'auto' }}>
                   {unreadCount > 99 ? '99+' : unreadCount}
                 </span>
               )}
@@ -278,15 +193,138 @@ export const Layout: React.FC<Props> = ({ children }) => {
           ))}
         </nav>
 
-        {/* Right side controls */}
+        {/* Drawer footer */}
+        <div style={{
+          padding: '12px 16px',
+          borderTop: '4px solid var(--border)',
+          background: 'var(--bg)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+            {/* Pixel LED indicator */}
+            <div style={{
+              width: '8px', height: '8px',
+              background: sseConnected ? 'var(--color-success)' : 'var(--color-warning)',
+              border: '2px solid rgba(0,0,0,0.5)',
+              boxShadow: sseConnected ? '0 0 6px var(--color-success)' : 'none',
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '7px',
+              color: 'var(--text-dim)',
+              lineHeight: 1.4,
+            }}>
+              {sseConnected ? 'LIVE' : 'WAIT'}
+            </span>
+          </div>
+          <AudioPlayer />
+        </div>
+      </div>
+
+      {/* ── Header ── */}
+      <header style={{
+        borderBottom: '4px solid var(--primary)',
+        background: 'var(--bg-card)',
+        padding: '0 12px',
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: '52px',
+        gap: '10px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        boxShadow: '0 4px 0 0 rgba(0,0,0,0.6), 0 0 20px var(--primary-glow)',
+      }}>
+        {/* Hamburger pixel button */}
+        <button
+          className="nav-hamburger"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+          style={{
+            background: 'var(--bg-hover)',
+            border: '3px solid var(--border)',
+            cursor: 'pointer',
+            padding: '5px 8px',
+            flexDirection: 'column',
+            gap: '3px',
+            flexShrink: 0,
+            boxShadow: 'inset 2px 2px 0 0 rgba(255,255,255,0.06), 2px 2px 0 0 rgba(0,0,0,0.5)',
+          }}
+        >
+          {[0,1,2].map((i) => (
+            <span key={i} style={{
+              width: '18px', height: '3px',
+              background: 'var(--primary)',
+              display: 'block',
+              transition: 'none',
+              transform: menuOpen
+                ? i === 0 ? 'rotate(45deg) translateY(6px)'
+                : i === 2 ? 'rotate(-45deg) translateY(-6px)'
+                : 'scaleX(0)'
+                : 'none',
+              opacity: menuOpen && i === 1 ? 0 : 1,
+            }} />
+          ))}
+        </button>
+
+        {/* Logo */}
+        <NavLink to="/dashboard" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <span style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: '11px',
+            color: 'var(--primary)',
+            textShadow: '2px 2px 0 rgba(0,0,0,0.9), 0 0 12px var(--primary-glow)',
+            letterSpacing: '1px',
+            lineHeight: '1.6',
+          }}>
+            🌊 SoC
+          </span>
+        </NavLink>
+
+        {/* Pixel divider */}
+        <div style={{
+          width: '4px', height: '32px',
+          background: 'repeating-linear-gradient(to bottom, var(--border) 0, var(--border) 4px, transparent 4px, transparent 8px)',
+          flexShrink: 0,
+        }} />
+
+        {/* Desktop nav */}
+        <nav className="nav-desktop" style={{
+          gap: '4px',
+          flex: 1,
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          minWidth: 0,
+          alignItems: 'center',
+        }}>
+          {NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) => `px-nav-item${isActive ? ' active' : ''}`}
+            >
+              {link.icon} {link.label}
+              {link.to === '/notifications' && unreadCount > 0 && (
+                <span className="notif-dot">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Right controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginLeft: 'auto' }}>
-          <span
+          {/* LED status */}
+          <div
             title={sseConnected ? 'Live feed connected' : 'Connecting...'}
             style={{
-              width: '8px', height: '8px', borderRadius: '50%',
+              width: '10px', height: '10px',
               background: sseConnected ? 'var(--color-success)' : 'var(--color-warning)',
+              border: '2px solid rgba(0,0,0,0.5)',
               boxShadow: sseConnected ? '0 0 8px var(--color-success)' : 'none',
-              display: 'inline-block', flexShrink: 0,
+              flexShrink: 0,
             }}
           />
           <span className="nav-desktop" style={{ display: 'flex' }}><AudioPlayer /></span>
@@ -294,7 +332,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
         </div>
       </header>
 
-      {/* Main content */}
+      {/* ── Main content ── */}
       <main style={{
         flex: 1,
         padding: '16px',
@@ -306,37 +344,48 @@ export const Layout: React.FC<Props> = ({ children }) => {
         {children}
       </main>
 
-      {/* Footer */}
+      {/* ── Footer ── */}
       <footer style={{
-        borderTop: '1px solid var(--border)',
-        padding: '8px 16px',
-        fontSize: '10px',
-        color: 'var(--text-dim)',
+        borderTop: '4px solid var(--border)',
+        padding: '8px 14px',
+        background: 'var(--bg-card)',
         display: 'grid',
         gridTemplateColumns: '1fr auto 1fr',
         alignItems: 'center',
+        gap: '8px',
       }}>
-        <span>SEA OF COREA v2.0.3</span>
+        <span style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: '7px',
+          color: 'var(--text-dim)',
+          letterSpacing: '1px',
+        }}>
+          SoC v2.0.3
+        </span>
         <a
           href="https://x.com/PromenadeCastle"
           target="_blank"
           rel="noopener noreferrer"
           style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: '8px',
             color: 'var(--primary)',
             textDecoration: 'none',
-            textShadow: '0 0 6px var(--primary-glow)',
-            fontFamily: 'var(--font-vt323)',
-            fontSize: '13px',
-            letterSpacing: '1px',
+            textShadow: '1px 1px 0 rgba(0,0,0,0.8), 0 0 6px var(--primary-glow)',
+            letterSpacing: '0px',
+            whiteSpace: 'nowrap',
           }}
         >
-          BITCOIN CASTLE PROMENADE
+          BITCOIN CASTLE
         </a>
         <span style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: '7px',
           color: sseConnected ? 'var(--color-success)' : 'var(--color-warning)',
           textAlign: 'right',
+          letterSpacing: '1px',
         }}>
-          {sseConnected ? '● LIVE' : '○ CONNECTING'}
+          {sseConnected ? '■ LIVE' : '□ WAIT'}
         </span>
       </footer>
 

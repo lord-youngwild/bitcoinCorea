@@ -1,34 +1,38 @@
 /* ============================================================
-   Sea of Corea — Global CRT Retro Stylesheet
+   Sea of Corea — Retro Pixel Art Game UI Stylesheet
    ============================================================ */
 
-/* ---- Google Fonts fallback (also loaded in index.html) ---- */
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap');
 
 /* ---- CSS Custom Properties (defaults: Sea of Corea theme) ---- */
 :root {
-  --primary:       #00b4d8;
+  --primary:       #00e5ff;
   --primary-dim:   #0077a8;
-  --primary-glow:  rgba(0, 180, 216, 0.45);
-  --bg:            #060d12;
-  --bg-card:       #0b1a22;
-  --bg-hover:      #0f2535;
-  --text:          #90e0ef;
-  --text-dim:      #4a8fa8;
-  --border:        #006a8a;
-  --border-glow:   rgba(0, 180, 216, 0.3);
-  --scanline:      rgba(0, 180, 216, 0.04);
+  --primary-glow:  rgba(0, 229, 255, 0.35);
+  --bg:            #040c10;
+  --bg-card:       #071520;
+  --bg-hover:      #0d2540;
+  --text:          #a0ecff;
+  --text-dim:      #3a7a90;
+  --border:        #005570;
+  --border-glow:   rgba(0, 229, 255, 0.2);
+  --scanline:      rgba(0, 229, 255, 0.03);
 
+  --font-pixel: 'Press Start 2P', monospace;
   --font-mono:  'Share Tech Mono', 'Courier New', monospace;
   --font-vt323: 'VT323', monospace;
 
-  --radius:  4px;
-  --card-pad: 1rem;
+  --radius:    0px;
+  --card-pad:  14px;
 
-  /* Status colors (theme-agnostic) */
-  --color-success: #00cc66;
-  --color-warning: #ffaa00;
-  --color-error:   #ff4444;
+  /* Pixel unit */
+  --px:  4px;
+  --px2: 8px;
+
+  /* Status colors */
+  --color-success: #00ff88;
+  --color-warning: #ffcc00;
+  --color-error:   #ff4455;
   --color-info:    var(--primary);
 }
 
@@ -37,6 +41,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  image-rendering: pixelated;
 }
 
 html, body, #root {
@@ -47,11 +52,16 @@ html, body, #root {
 
 body {
   background-color: var(--bg);
+  /* Subtle pixel grid background */
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.025) 1px, transparent 1px);
+  background-size: 16px 16px;
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 15px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -71,120 +81,153 @@ body::after {
   );
 }
 
-/* ---- CRT Flicker Animation ---- */
-@keyframes flicker {
-  0%   { opacity: 1; }
-  92%  { opacity: 1; }
-  93%  { opacity: 0.97; }
-  94%  { opacity: 1; }
-  96%  { opacity: 0.98; }
-  100% { opacity: 1; }
-}
-
-/* ---- Phosphor Glow Utilities ---- */
-.glow {
-  text-shadow:
-    0 0 5px var(--primary),
-    0 0 15px var(--primary-glow),
-    0 0 30px var(--primary-glow);
-}
-
-.glow-strong {
-  text-shadow:
-    0 0 3px #fff,
-    0 0 8px var(--primary),
-    0 0 20px var(--primary),
-    0 0 40px var(--primary-glow);
-}
-
-.box-glow {
-  box-shadow:
-    0 0 6px var(--border-glow),
-    inset 0 0 6px var(--border-glow);
-}
-
-/* ---- Card ---- */
+/* ---- Pixel Art Card (RPG Dialog Box) ---- */
 .card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border: var(--px) solid var(--primary);
+  border-radius: 0;
   padding: var(--card-pad);
-  box-shadow: 0 0 8px var(--border-glow);
   position: relative;
-  overflow: hidden;
+  /* 3D depth: inner highlight + dark bottom-right + drop shadow */
+  box-shadow:
+    inset 2px 2px 0 0 rgba(255, 255, 255, 0.07),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.4),
+    4px 4px 0 0 rgba(0, 0, 0, 0.55);
 }
 
+/* Inner decorative corner brackets */
 .card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--primary-glow) 0%, transparent 50%);
-  opacity: 0.03;
+  inset: 3px;
+  border: 2px solid var(--border);
   pointer-events: none;
+  z-index: 0;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Typography ---- */
-h1, h2, h3, .vt323 {
+h1, h2, h3 {
+  font-family: var(--font-pixel);
+  color: var(--primary);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 0 0 12px var(--primary-glow);
+  line-height: 1.6;
+}
+
+.vt323 {
   font-family: var(--font-vt323);
   color: var(--primary);
 }
 
 .label {
-  font-size: 13px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  line-height: 1.8;
 }
 
 .value {
-  font-size: 32px;
+  font-size: 40px;
   font-family: var(--font-vt323);
   color: var(--primary);
-  text-shadow: 0 0 8px var(--primary-glow);
-  line-height: 1.1;
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.9),
+    0 0 10px var(--primary-glow);
+  line-height: 1;
 }
 
 .value-sm {
-  font-size: 22px;
+  font-size: 26px;
   font-family: var(--font-vt323);
   color: var(--primary);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
 }
 
 .unit {
-  font-size: 14px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
   color: var(--text-dim);
-  margin-left: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
-/* ---- Buttons ---- */
+/* ---- Phosphor Glow Utilities ---- */
+.glow {
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.9),
+    0 0 8px var(--primary),
+    0 0 20px var(--primary-glow);
+}
+
+.glow-strong {
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.9),
+    0 0 4px #fff,
+    0 0 10px var(--primary),
+    0 0 24px var(--primary-glow);
+}
+
+.box-glow {
+  box-shadow:
+    0 0 0 2px var(--primary),
+    0 0 12px var(--primary-glow);
+}
+
+/* ---- Pixel Art Buttons ---- */
 .btn {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--primary);
-  padding: 6px 12px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  background: var(--bg-hover);
+  border: 3px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
   cursor: pointer;
-  border-radius: var(--radius);
+  border-radius: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: background 0.15s, box-shadow 0.15s;
+  line-height: 1.4;
+  transition: none;
+  user-select: none;
+  /* 3D raised pixel effect */
+  box-shadow:
+    inset 3px 3px 0 0 rgba(255, 255, 255, 0.1),
+    inset -3px -3px 0 0 rgba(0, 0, 0, 0.4),
+    3px 3px 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .btn:hover {
   background: var(--bg-hover);
-  box-shadow: 0 0 8px var(--border-glow);
+  border-color: var(--primary);
+  color: var(--primary);
+  text-shadow: 0 0 6px var(--primary-glow);
+}
+
+.btn:active {
+  /* Pressed: invert 3D effect, shift down-right */
+  box-shadow:
+    inset -3px -3px 0 0 rgba(255, 255, 255, 0.1),
+    inset 3px 3px 0 0 rgba(0, 0, 0, 0.4),
+    0px 0px 0 0 rgba(0, 0, 0, 0.5);
+  transform: translate(3px, 3px);
 }
 
 .btn-primary {
   background: var(--primary-dim);
   border-color: var(--primary);
   color: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
 }
 
 .btn-primary:hover {
   background: var(--primary);
-  box-shadow: 0 0 12px var(--primary-glow);
+  color: var(--bg);
+  text-shadow: none;
 }
 
 .btn-danger {
@@ -193,7 +236,36 @@ h1, h2, h3, .vt323 {
 }
 
 .btn-danger:hover {
-  background: rgba(255, 68, 68, 0.1);
+  background: rgba(255, 68, 85, 0.15);
+  border-color: var(--color-error);
+  text-shadow: 0 0 8px var(--color-error);
+}
+
+/* ---- Pixel Progress Bar (HP/MP style) ---- */
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  border-radius: 0;
+  padding: 2px;
+  overflow: hidden;
+  box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.5);
+}
+
+.progress-fill {
+  height: 100%;
+  /* Segmented block pattern — classic game HP bar */
+  background: repeating-linear-gradient(
+    to right,
+    var(--primary) 0,
+    var(--primary) 7px,
+    rgba(0, 0, 0, 0.35) 7px,
+    rgba(0, 0, 0, 0.35) 9px
+  );
+  border-radius: 0;
+  transition: width 0.4s steps(20);
+  box-shadow: 0 0 6px var(--primary-glow);
 }
 
 /* ---- Tables ---- */
@@ -201,28 +273,31 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 th {
   text-align: left;
   padding: 10px 12px;
-  font-size: 12px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: var(--text-dim);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 3px solid var(--border);
   cursor: pointer;
   user-select: none;
+  background: var(--bg);
 }
 
 th:hover {
   color: var(--primary);
+  text-shadow: 0 0 6px var(--primary-glow);
 }
 
 td {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(0, 85, 170, 0.15);
+  border-bottom: 2px solid rgba(0, 85, 170, 0.12);
   vertical-align: middle;
 }
 
@@ -230,107 +305,120 @@ tr:hover td {
   background: var(--bg-hover);
 }
 
-/* ---- Status Badges ---- */
+/* ---- Status Badges (pixel art style) ---- */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 0;
+  font-family: var(--font-pixel);
+  font-size: 7px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border: 1px solid;
+  border: 3px solid;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.6);
 }
 
 .badge-online {
   color: var(--color-success);
   border-color: var(--color-success);
-  background: rgba(0, 204, 102, 0.1);
+  background: rgba(0, 255, 136, 0.08);
   text-shadow: 0 0 6px var(--color-success);
 }
 
 .badge-offline {
   color: var(--color-error);
   border-color: var(--color-error);
-  background: rgba(255, 68, 68, 0.1);
+  background: rgba(255, 68, 85, 0.08);
 }
 
 .badge-warning {
   color: var(--color-warning);
   border-color: var(--color-warning);
-  background: rgba(255, 170, 0, 0.1);
+  background: rgba(255, 204, 0, 0.08);
 }
 
 /* ---- Notification Levels ---- */
-.notif-info    { border-left: 3px solid var(--color-info); }
-.notif-success { border-left: 3px solid var(--color-success); }
-.notif-warning { border-left: 3px solid var(--color-warning); }
-.notif-error   { border-left: 3px solid var(--color-error); }
+.notif-info    { border-left: 4px solid var(--color-info); }
+.notif-success { border-left: 4px solid var(--color-success); }
+.notif-warning { border-left: 4px solid var(--color-warning); }
+.notif-error   { border-left: 4px solid var(--color-error); }
 
-/* ---- Scrollbar ---- */
+/* ---- Scrollbar (chunky pixel style) ---- */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg);
+  border-left: 2px solid var(--border);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
+  background: var(--primary-dim);
+  border: 2px solid var(--border);
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dim);
+  background: var(--primary);
 }
 
-/* ---- Input ---- */
+/* ---- Input / Select (pixel style) ---- */
 input, select, textarea {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--bg);
+  border: 3px solid var(--border);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: var(--radius);
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 0;
   outline: none;
   width: 100%;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.1s;
+  box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.4);
 }
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 6px var(--primary-glow);
+  box-shadow:
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.4),
+    0 0 0 2px var(--primary-glow);
 }
 
-/* ---- Progress Bar ---- */
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-hover);
-  border-radius: 3px;
-  overflow: hidden;
+/* ---- Hashrate Notice ---- */
+.hashrate-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 204, 0, 0.06);
+  border: 3px solid var(--color-warning);
+  border-radius: 0;
+  color: var(--color-warning);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  animation: stagger-in 0.3s ease-out both;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.5);
 }
 
-.progress-fill {
-  height: 100%;
-  background: var(--primary);
-  box-shadow: 0 0 8px var(--primary-glow);
-  border-radius: 3px;
-  transition: width 0.5s ease;
+.hashrate-notice-error {
+  background: rgba(255, 68, 85, 0.06);
+  border-color: var(--color-error);
+  color: var(--color-error);
 }
 
 /* ---- Animations ---- */
-/* ── Stagger entrance animations ──────────────────────────────────────────── */
 @keyframes stagger-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes stagger-in-scale {
-  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -339,14 +427,25 @@ input:focus, select:focus, textarea:focus {
   50%       { opacity: 0; }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 6px var(--border-glow); }
-  50%       { box-shadow: 0 0 18px var(--primary-glow); }
+@keyframes pixel-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 2px 2px 0 0 rgba(255, 255, 255, 0.07),
+      inset -2px -2px 0 0 rgba(0, 0, 0, 0.4),
+      4px 4px 0 0 rgba(0, 0, 0, 0.55);
+  }
+  50% {
+    box-shadow:
+      inset 2px 2px 0 0 rgba(255, 255, 255, 0.07),
+      inset -2px -2px 0 0 rgba(0, 0, 0, 0.4),
+      4px 4px 0 0 rgba(0, 0, 0, 0.55),
+      0 0 16px var(--primary-glow);
+  }
 }
 
 @keyframes boot-line {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes scan-line-sweep {
@@ -354,39 +453,38 @@ input:focus, select:focus, textarea:focus {
   100% { top: 110%; }
 }
 
-/* ---- Arrow Indicator Bounce ---- */
+/* Arrow Indicators */
 @keyframes arrowBounceUp {
   0%   { transform: translateY(0) scale(1); }
-  30%  { transform: translateY(-5px) scale(1.2); }
-  60%  { transform: translateY(2px) scale(0.95); }
+  30%  { transform: translateY(-4px) scale(1.2); }
+  60%  { transform: translateY(2px) scale(0.9); }
   100% { transform: translateY(0) scale(1); }
 }
 @keyframes arrowBounceDown {
   0%   { transform: translateY(0) scale(1); }
-  30%  { transform: translateY(5px) scale(1.2); }
-  60%  { transform: translateY(-2px) scale(0.95); }
+  30%  { transform: translateY(4px) scale(1.2); }
+  60%  { transform: translateY(-2px) scale(0.9); }
   100% { transform: translateY(0) scale(1); }
 }
-.arrow-bounce-up   { animation: arrowBounceUp   0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
-.arrow-bounce-down { animation: arrowBounceDown 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+.arrow-bounce-up   { animation: arrowBounceUp   0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+.arrow-bounce-down { animation: arrowBounceDown 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
 
-/* ---- CRT Retro Refresh Pulse ---- */
+/* CRT Retro Refresh */
 @keyframes crtRefreshPulse {
   0%   { opacity: 1; }
-  15%  { opacity: 0.82; filter: brightness(1.18) saturate(1.15); }
+  15%  { opacity: 0.80; filter: brightness(1.2) saturate(1.15); }
   30%  { opacity: 0.96; }
-  50%  { opacity: 0.88; filter: brightness(1.08); }
+  50%  { opacity: 0.86; filter: brightness(1.08); }
   100% { opacity: 1; filter: none; }
 }
 @keyframes crtScanFlash {
   0%   { opacity: 0; }
-  20%  { opacity: 0.18; }
-  60%  { opacity: 0.06; }
+  20%  { opacity: 0.15; }
+  60%  { opacity: 0.05; }
   100% { opacity: 0; }
 }
 .crt-refresh-active { animation: crtRefreshPulse 0.28s ease-out forwards; }
 
-/* CRT scan flash overlay — inserted by retro refresh logic */
 #crt-refresh-overlay {
   position: fixed;
   inset: 0;
@@ -403,7 +501,7 @@ input:focus, select:focus, textarea:focus {
 }
 #crt-refresh-overlay.active { animation: crtScanFlash 0.28s ease-out forwards; }
 
-/* ---- Block Celebration Confetti ---- */
+/* Confetti */
 @keyframes confettiDrop {
   0%   { transform: translateY(-20px) rotate(0deg) scale(0.8); opacity: 0; }
   15%  { opacity: 1; }
@@ -421,34 +519,13 @@ input:focus, select:focus, textarea:focus {
   position: fixed;
   width: 8px;
   height: 8px;
-  border-radius: 2px;
+  border-radius: 0;   /* Square pixels for confetti */
   pointer-events: none;
   z-index: 9997;
   animation: confettiFloat var(--duration, 3s) ease-in var(--delay, 0s) forwards;
 }
 
-/* ---- Hashrate Notice ---- */
-.hashrate-notice {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: rgba(255, 170, 0, 0.08);
-  border: 1px solid var(--color-warning);
-  border-radius: var(--radius);
-  color: var(--color-warning);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  animation: stagger-in 0.3s ease-out both;
-}
-.hashrate-notice-error {
-  background: rgba(255, 68, 68, 0.08);
-  border-color: var(--color-error);
-  color: var(--color-error);
-}
-
-/* ---- Layout utilities ---- */
+/* ---- Layout Utilities ---- */
 .flex        { display: flex; }
 .flex-col    { flex-direction: column; }
 .items-center { align-items: center; }
@@ -468,88 +545,48 @@ input:focus, select:focus, textarea:focus {
 .text-right  { text-align: right; }
 .truncate    { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ---- Mobile Responsiveness (≤768px / iPhone SE 375px) ---- */
-@media (max-width: 768px) {
-  /* Metric card values — minimum readable size */
-  .value {
-    font-size: 26px;
-  }
-  .value-sm {
-    font-size: 20px;
-  }
-
-  /* Cards never overflow */
-  .card {
-    min-width: 0;
-    overflow: hidden;
-    word-break: break-word;
-  }
-
-  /* Sparklines compact on mobile */
-  svg.sparkline {
-    max-width: 80px;
-  }
-
-  /* Grid layouts collapse to 2-col or 1-col on small screens */
-  [style*="grid-template-columns: repeat(4"] {
-    /* Can't override inline styles directly, but these media classes help */
-  }
-}
-
-@media (max-width: 480px) {
-  .value {
-    font-size: 24px;
-  }
-  .value-sm {
-    font-size: 18px;
-  }
-}
-
-/* Mobile grid utilities — add these classes for responsive grids */
+/* ---- Grid Utilities ---- */
 .grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 
 @media (max-width: 768px) {
-  .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  .value  { font-size: 32px; }
+  .value-sm { font-size: 22px; }
+  .card   { min-width: 0; overflow: hidden; word-break: break-word; }
+  svg.sparkline { max-width: 80px; }
+}
+
+@media (max-width: 480px) {
+  .value    { font-size: 28px; }
+  .value-sm { font-size: 20px; }
 }
 
 @media (max-width: 400px) {
-  .grid-4 {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  .grid-4 { grid-template-columns: 1fr 1fr; gap: 8px; }
 }
 
-/* Hashrate chart responsive height */
+/* Chart container */
 .chart-container {
   position: relative;
   height: 220px;
 }
 
 @media (max-width: 768px) {
-  .chart-container {
-    height: 160px;
-  }
+  .chart-container { height: 160px; }
 }
 
-/* Hide on mobile */
 @media (max-width: 600px) {
-  .hide-mobile {
-    display: none !important;
-  }
+  .hide-mobile { display: none !important; }
 }
 
 /* Scrollable table wrapper */
@@ -557,4 +594,29 @@ input:focus, select:focus, textarea:focus {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
+}
+
+/* ---- Pixel Art Divider ---- */
+.pixel-divider {
+  height: 4px;
+  border: none;
+  background: repeating-linear-gradient(
+    to right,
+    var(--border) 0,
+    var(--border) 8px,
+    transparent 8px,
+    transparent 12px
+  );
+  margin: 8px 0;
+}
+
+/* ---- Cursor blink (game cursor) ---- */
+.cursor-blink {
+  animation: blink 0.8s step-start infinite;
+}
+
+/* ---- Selection highlight ---- */
+::selection {
+  background: var(--primary-dim);
+  color: #fff;
 }

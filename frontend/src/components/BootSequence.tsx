@@ -131,38 +131,55 @@ export const BootSequence: React.FC<Props> = ({ onComplete }) => {
       {/* Title */}
       <div
         style={{
-          fontFamily: 'var(--font-vt323)',
-          fontSize: '48px',
+          fontFamily: 'var(--font-pixel)',
+          fontSize: '14px',
           color: 'var(--primary)',
-          textShadow: '0 0 20px var(--primary-glow)',
-          marginBottom: '16px',
-          letterSpacing: '4px',
+          textShadow: '3px 3px 0 rgba(0,0,0,0.9), 0 0 16px var(--primary-glow)',
+          marginBottom: '20px',
+          letterSpacing: '2px',
+          lineHeight: '2',
+          textAlign: 'center',
         }}
       >
         🌊 SEA OF COREA
       </div>
 
-      {/* Progress bar */}
+      {/* Pixel block progress bar */}
       <div
         style={{
           width: '100%',
           maxWidth: '600px',
-          height: '3px',
-          background: 'var(--bg-card, rgba(255,255,255,0.05))',
-          borderRadius: '2px',
           marginBottom: '24px',
-          overflow: 'hidden',
         }}
       >
-        <div
-          style={{
-            width: `${progress}%`,
-            height: '100%',
-            background: done ? 'var(--color-success)' : 'var(--primary)',
-            transition: 'width 0.2s ease',
-            boxShadow: `0 0 8px ${done ? 'var(--color-success)' : 'var(--primary-glow)'}`,
-          }}
-        />
+        <div style={{
+          display: 'flex', gap: '3px', height: '16px', padding: '2px',
+          background: 'var(--bg)',
+          border: '3px solid var(--border)',
+          boxShadow: 'inset 2px 2px 0 0 rgba(0,0,0,0.5)',
+        }}>
+          {Array.from({ length: 30 }).map((_, i) => {
+            const filled = i < Math.round((progress / 100) * 30);
+            const color = done ? 'var(--color-success)' : 'var(--primary)';
+            return (
+              <div key={i} style={{
+                flex: 1, height: '100%',
+                background: filled ? color : 'rgba(255,255,255,0.04)',
+                boxShadow: filled ? `0 0 3px ${color}` : 'none',
+                transition: 'background 0.1s step-start',
+              }} />
+            );
+          })}
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: '7px',
+          color: 'var(--text-dim)',
+          marginTop: '4px',
+          textAlign: 'right',
+        }}>
+          {progress}%
+        </div>
       </div>
 
       {/* Terminal output */}
