@@ -45,7 +45,7 @@ export function useEasterEgg(
       ? 'Easter Egg Disabled!'
       : theme === 'matrix'
         ? 'Entering the Matrix...'
-        : theme === 'deepsea'
+        : theme === 'sea'
           ? 'Diving into Sea of Corea! 🌊'
           : 'Embracing Bitcoin vibes!';
 
@@ -156,7 +156,7 @@ export function useEasterEgg(
   useEffect(() => {
     if (!state.whaleMode) return;
 
-    const symbol = theme === 'matrix' ? '💲' : theme === 'deepsea' ? '🐳' : '₿';
+    const symbol = theme === 'matrix' ? '💲' : theme === 'sea' ? '🐳' : '₿';
     const color = theme === 'matrix' ? '#39ff14' : theme === 'bitcoin' ? '#f7931a' : undefined;
 
     const spawnWhale = (x: number, y: number) => {

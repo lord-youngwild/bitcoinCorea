@@ -107,7 +107,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       unreadCount: s.unreadCount + (n.read ? 0 : 1),
     })),
 
-  theme: (localStorage.getItem('theme') as Theme) || 'deepsea',
+  theme: (localStorage.getItem('theme') as Theme) || 'sea',
   setTheme: (t) => {
     localStorage.setItem('theme', t);
     set({ theme: t });

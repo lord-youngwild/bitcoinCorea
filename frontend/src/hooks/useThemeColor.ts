@@ -3,7 +3,7 @@ import { useAppStore } from '../stores/store';
 import type { Theme } from '../types';
 
 const THEME_COLORS: Record<Theme, string> = {
-  deepsea: '#060d12',
+  sea: '#060d12',
   bitcoin: '#1a1a2e',
   matrix: '#0d1117',
 };

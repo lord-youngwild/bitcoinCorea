@@ -88,7 +88,7 @@ class OceanClient:
         if self._client is None or self._client.is_closed:
             self._client = httpx.AsyncClient(
                 timeout=self.timeout,
-                headers={"User-Agent": "DeepSea-Dashboard/2.0"},
+                headers={"User-Agent": "SeaOfCorea/2.0"},
                 follow_redirects=True,
             )
         return self._client
@@ -565,7 +565,7 @@ class OceanClient:
         """Scrape worker data from ocean.xyz/stats/<wallet>."""
         url = OCEAN_STATS_URL.format(wallet=self.wallet)
         headers = {
-            "User-Agent": "Mozilla/5.0 (compatible; DeepSea/2.0)",
+            "User-Agent": "Mozilla/5.0 (compatible; SeaOfCorea/2.0)",
             "Accept": "text/html",
         }
 

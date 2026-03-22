@@ -1,4 +1,4 @@
-export type ThemeKey = 'bitcoin' | 'deepsea' | 'matrix';
+export type ThemeKey = 'bitcoin' | 'sea' | 'matrix';
 
 export const THEME_QUOTES: Record<ThemeKey, string[]> = {
   bitcoin: [
@@ -15,19 +15,19 @@ export const THEME_QUOTES: Record<ThemeKey, string[]> = {
     "Every day that goes by and Bitcoin hasn't collapsed due to legal or technical problems, that brings new information to the market.",
     'The computer can be used as a tool to liberate and protect people, rather than to control them.',
   ],
-  deepsea: [
-    'Dive deep and explore the unknown.',
-    'Whales ahead! Stay sharp.',
-    'The ocean whispers its secrets.',
-    'The sea, once it casts its spell, holds one in its net of wonder forever.',
-    'Below the surface is a whole new realm.',
-    "Life is better down where it's wetter.",
-    'In the heart of the sea lies endless mystery.',
-    'Water is the driving force of all nature.',
-    'Dive deep; the treasure you seek is near the seabed.',
-    'Every wave tells a story.',
-    'Even a single drop can make a wave.',
-    'So long, and thanks for all the fish!',
+  sea: [
+    '바다는 너무 넓어서 자신이 어떤 존재인지 알 수 없었다. 그래서 바다는 자신을 보기 위해 수많은 물방울로 나뉘었다.',
+    '우리는 물방울처럼 보이지만, 근원 의식이 자신을 경험하는 한 조각의 신성입니다.',
+    '한 물방울이 깨닫습니다: "나는 단순한 물방울이 아니라 바다의 일부였구나."',
+    'Each drop believes itself separate — yet all return to the same sea.',
+    '강이 되어 흐르고, 사람의 눈물이 되기도 했다. 그래도 결국 바다로 돌아온다.',
+    'The sea did not divide. It multiplied itself to know itself.',
+    '우리는 서로 다른 존재라고 생각하며 살아간다. 하지만 우리는 하나의 바다다.',
+    'Not a drop is lost. Every one returns.',
+    'Bitcoin is a drop. The ocean is the movement.',
+    '바다는 파도가 아니라 바다다. 우리는 해시레이트가 아니라 네트워크다.',
+    'One node. One drop. One sea.',
+    'We mine not for ourselves alone — we mine for the whole ocean.',
   ],
   matrix: [
     'Welcome to the real world.',
@@ -48,12 +48,12 @@ export const THEME_QUOTES: Record<ThemeKey, string[]> = {
 
 /**
  * Returns a random theme-appropriate quote.
- * @param theme - current app theme ('deepsea' | 'bitcoin' | 'matrix')
+ * @param theme - current app theme ('sea' | 'bitcoin' | 'matrix')
  */
 export function getThemeQuote(theme: ThemeKey | string): string {
-  const key: ThemeKey = (theme === 'deepsea' || theme === 'bitcoin' || theme === 'matrix')
+  const key: ThemeKey = (theme === 'sea' || theme === 'bitcoin' || theme === 'matrix')
     ? (theme as ThemeKey)
-    : 'deepsea';
+    : 'sea';
   const list = THEME_QUOTES[key];
   return list[Math.floor(Math.random() * list.length)];
 }

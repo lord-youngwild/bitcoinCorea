@@ -25,7 +25,7 @@ async def test_workers_response_totals_follow_filtered_set(monkeypatch):
         return cached
 
     monkeypatch.setattr(workers, "cache_get", fake_cache_get)
-    monkeypatch.setattr(workers.background, "get_cache_key", lambda name: f"deepsea:test:{name}")
+    monkeypatch.setattr(workers.background, "get_cache_key", lambda name: f"soc:test:{name}")
     monkeypatch.setattr(workers.background, "get_current_metrics", lambda: {"unpaid_earnings": 0.01})
 
     result = await workers.get_workers(status="online", sort_by="name", descending=False)

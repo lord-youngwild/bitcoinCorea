@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchEarnings } from '../api/client';
 import type { DashboardMetrics, EarningsResponse } from '../types';
 
-const LS_KEY = 'deepsea_payout_history';
+const LS_KEY = 'soc_payout_history';
 const MAX_HISTORY = 100;
 const PAYOUT_THRESHOLD_DROP = 0.5; // current < previous * 0.5
 const RECENT_WINDOW_MS = 60 * 60 * 1000; // 1 hour

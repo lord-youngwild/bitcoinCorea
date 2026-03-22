@@ -6,7 +6,7 @@
  *
  * Playlists:
  *   bitcoin  → bitcoin.mp3, bitcoin1.mp3, bitcoin2.mp3
- *   deepsea  → ocean.mp3
+ *   sea      → ocean.mp3
  *   matrix   → matrix.mp3, matrix1.mp3, matrix2.mp3
  *
  * State persisted to localStorage:
@@ -22,7 +22,7 @@ const PLAYLISTS: Record<Theme, string[]> = {
     '/audio/bitcoin1.mp3',
     '/audio/bitcoin2.mp3',
   ],
-  deepsea: ['/audio/ocean.mp3'],
+  sea: ['/audio/ocean.mp3'],
   matrix: [
     '/audio/matrix.mp3',
     '/audio/matrix1.mp3',

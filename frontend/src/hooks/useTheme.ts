@@ -16,7 +16,7 @@ export function useTheme() {
   }, [theme]);
 
   const cycleTheme = () => {
-    const order: Theme[] = ['deepsea', 'bitcoin', 'matrix'];
+    const order: Theme[] = ['sea', 'bitcoin', 'matrix'];
     const idx = order.indexOf(theme);
     setTheme(order[(idx + 1) % order.length]);
   };

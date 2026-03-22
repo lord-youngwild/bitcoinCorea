@@ -17,7 +17,7 @@ import { useTheme } from './hooks/useTheme';
 import { applyTheme } from './theme/themes';
 import { useAppStore } from './stores/store';
 
-const BOOT_SHOWN_KEY = 'deepsea_boot_shown';
+const BOOT_SHOWN_KEY = 'soc_boot_shown';
 
 function AppInner() {
   useSSE();

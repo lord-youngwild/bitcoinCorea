@@ -1,6 +1,6 @@
 # Configuration Reference
 
-DeepSea Dashboard is configured via `config.json` (mounted at `/config/config.json` in Docker).
+Sea of Corea Dashboard is configured via `config.json` (mounted at `/config/config.json` in Docker).
 Copy `config.json.example` to `config.json` and edit as needed.
 
 All fields are optional except `wallet`. Missing fields fall back to the defaults listed below.

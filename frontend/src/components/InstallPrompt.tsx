@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const DISMISS_KEY = 'deepsea_install_dismissed';
+const DISMISS_KEY = 'soc_install_dismissed';
 const DISMISS_DAYS = 30;
 
 interface BeforeInstallPromptEvent extends Event {

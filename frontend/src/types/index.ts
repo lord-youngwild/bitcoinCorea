@@ -1,4 +1,4 @@
-// DeepSea Dashboard — TypeScript Types
+// Sea of Corea Dashboard — TypeScript Types
 
 export interface DashboardMetrics {
   hashrate_60sec: number;
@@ -143,7 +143,7 @@ export interface AppConfig {
   extended_history: boolean;
 }
 
-export type Theme = 'deepsea' | 'bitcoin' | 'matrix';
+export type Theme = 'sea' | 'bitcoin' | 'matrix';
 
 export interface SparklinePoint {
   x: number;

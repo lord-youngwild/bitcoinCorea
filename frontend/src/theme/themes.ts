@@ -17,8 +17,8 @@ export interface ThemeDefinition {
 }
 
 export const THEMES: Record<Theme, ThemeDefinition> = {
-  deepsea: {
-    id: 'deepsea',
+  sea: {
+    id: 'sea',
     label: '🌊 Sea of Corea',
     primary: '#00b4d8',
     primaryDim: '#0077a8',

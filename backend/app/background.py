@@ -70,7 +70,7 @@ def _broadcast(event: dict) -> None:
 
 def get_cache_key(name: str, wallet: str | None = None) -> str:
     scoped_wallet = (wallet or get_wallet() or "no-wallet").strip() or "no-wallet"
-    return f"deepsea:{scoped_wallet}:{name}"
+    return f"soc:{scoped_wallet}:{name}"
 
 
 async def _clear_runtime_state(previous_wallet: str | None = None) -> None:

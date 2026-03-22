@@ -73,7 +73,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="DeepSea Dashboard API",
+    title="Sea of Corea Dashboard API",
     version="2.0.3",
     description="Ocean.xyz mining monitoring dashboard",
     lifespan=lifespan,

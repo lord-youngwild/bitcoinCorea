@@ -17,7 +17,7 @@ export function useCrossTabSync() {
       // Theme sync — when another tab changes theme, apply it here
       if (e.key === THEME_KEY) {
         const newTheme = e.newValue as Theme;
-        const validThemes: Theme[] = ['deepsea', 'bitcoin', 'matrix'];
+        const validThemes: Theme[] = ['sea', 'bitcoin', 'matrix'];
         if (validThemes.includes(newTheme)) {
           // Update store (don't write back to localStorage — that would loop)
           useAppStore.setState({ theme: newTheme });

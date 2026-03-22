@@ -1,4 +1,4 @@
-// Typed API client for DeepSea Dashboard backend
+// Typed API client for Sea of Corea Dashboard backend
 
 import type {
   AppConfig,
@@ -18,10 +18,10 @@ const MAX_RATE_LIMIT_RETRIES = 3;
 
 // Simple toast helper — avoids importing a full toast library here
 function _showRateLimitToast(message: string): void {
-  const existing = document.getElementById('_deepsea_rl_toast');
+  const existing = document.getElementById('_soc_rl_toast');
   if (existing) existing.remove();
   const el = document.createElement('div');
-  el.id = '_deepsea_rl_toast';
+  el.id = '_soc_rl_toast';
   el.textContent = message;
   Object.assign(el.style, {
     position: 'fixed',
@@ -80,7 +80,7 @@ async function request<T>(
       _showRateLimitToast(`Rate limited — retrying in ${retryAfterSec}s… (${_retryCount + 1}/${MAX_RATE_LIMIT_RETRIES})`);
 
       if (localStorage.getItem('debugMode') === 'true') {
-        console.debug('[DeepSea] 429 on', path, '— retry', _retryCount + 1, 'after', delayMs, 'ms');
+        console.debug('[SoC] 429 on', path, '— retry', _retryCount + 1, 'after', delayMs, 'ms');
       }
 
       await new Promise<void>((resolve) => window.setTimeout(resolve, delayMs));

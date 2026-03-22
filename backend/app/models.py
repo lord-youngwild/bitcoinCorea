@@ -1,4 +1,4 @@
-"""Pydantic v2 data models for the DeepSea Dashboard API.
+"""Pydantic v2 data models for the Sea of Corea Dashboard API.
 
 All models use Pydantic v2 syntax.  Key design decisions:
 

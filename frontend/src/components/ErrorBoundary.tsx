@@ -120,7 +120,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[DeepSea ErrorBoundary]', error, info.componentStack);
+    console.error('[SoC ErrorBoundary]', error, info.componentStack);
     // Report to backend (fire-and-forget)
     postClientError({
       message: error.message,

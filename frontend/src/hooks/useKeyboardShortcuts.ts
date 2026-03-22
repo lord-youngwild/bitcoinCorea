@@ -12,11 +12,11 @@ const SHORTCUT_MAP: Record<string, string> = {
 
 // LocalStorage keys cleared on wallet reset
 const WALLET_RESET_KEYS = [
-  'deepsea_payout_history',  // usePayoutTracking
+  'soc_payout_history',      // usePayoutTracking
   'blockAnnotations',         // useBlockAnnotations
   'workerPowerOverrides',     // Workers page
   'workerPowerCost',          // Workers page
-  'deepsea_boot_shown',       // boot sequence flag
+  'soc_boot_shown',           // boot sequence flag
 ];
 
 function showSystemResetToast(): void {

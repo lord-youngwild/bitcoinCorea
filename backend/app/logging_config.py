@@ -1,4 +1,4 @@
-"""Structured logging configuration for DeepSea Dashboard.
+"""Structured logging configuration for Sea of Corea Dashboard.
 
 Configures JSON-formatted log output for production and a human-friendly
 format for development.  Log level is controlled by the LOG_LEVEL env var
@@ -89,9 +89,9 @@ def log_startup_banner(
     redis_connected: bool,
 ) -> None:
     """Emit a structured startup banner."""
-    logger = logging.getLogger("deepsea.startup")
+    logger = logging.getLogger("soc.startup")
     logger.info(
-        "DeepSea Dashboard starting",
+        "Sea of Corea Dashboard starting",
         extra={
             "version": version,
             "wallet_configured": wallet_configured,
@@ -103,7 +103,7 @@ def log_startup_banner(
 
 def get_request_middleware() -> Callable:
     """Return an async ASGI middleware function that logs each HTTP request."""
-    _req_logger = logging.getLogger("deepsea.http")
+    _req_logger = logging.getLogger("soc.http")
 
     async def request_logging_middleware(request: Request, call_next: Callable) -> Response:
         start = time.perf_counter()

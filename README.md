@@ -1,8 +1,8 @@
-# ⛏ DeepSea Dashboard
+# 🌊 Sea of Corea Dashboard
 
 Real-time Bitcoin mining dashboard for [Ocean.xyz](https://ocean.xyz) pool miners. Track hashrate, earnings, workers, and blocks — all in a retro CRT terminal aesthetic.
 
-[![CI](https://github.com/Djobleezy/DeepSea-Dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/Djobleezy/DeepSea-Dashboard/actions/workflows/ci.yml)
+[![CI](https://github.com/bitcoinCorea/sea-of-corea/actions/workflows/ci.yml/badge.svg)](https://github.com/bitcoinCorea/sea-of-corea/actions/workflows/ci.yml)
 ![Version](https://img.shields.io/badge/v2.0.3-React%20%2B%20FastAPI-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -30,7 +30,7 @@ Real-time Bitcoin mining dashboard for [Ocean.xyz](https://ocean.xyz) pool miner
 - **Block Explorer** — Real Bitcoin network blocks from mempool.space with pool donut chart and color-coded pool badges
 - **Earnings & Payouts** — Payment history, daily/monthly summaries, estimated time to payout with progress bar
 - **Notifications** — Block found, hashrate changes, worker online/offline, daily stats, payout alerts
-- **3 Themes** — DeepSea (blue), Bitcoin (orange), Matrix (green) with CRT scanlines and phosphor glow
+- **3 Themes** — Sea of Corea (blue), Bitcoin (orange), Matrix (green) with CRT scanlines and phosphor glow
 - **Audio Player** — Theme-aware playlists with crossfade transitions
 - **PWA Support** — Service worker, offline caching, cross-tab sync via BroadcastChannel
 - **DATUM Gateway** — Connection status indicator for Ocean's DATUM protocol
@@ -94,8 +94,8 @@ Real-time Bitcoin mining dashboard for [Ocean.xyz](https://ocean.xyz) pool miner
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/Djobleezy/DeepSea-Dashboard.git
-cd DeepSea-Dashboard
+git clone https://github.com/bitcoinCorea/sea-of-corea.git
+cd sea-of-corea
 
 # 2. Create your config
 cp config.json.example config.json
@@ -134,7 +134,7 @@ All configuration lives in `config.json` at the repo root. Changes are applied v
   "currency": "USD",
   "timezone": "America/Los_Angeles",
   "network_fee": 0.5,
-  "theme": "deepsea",
+  "theme": "sea",
   "extended_history": false
 }
 ```
@@ -147,7 +147,7 @@ All configuration lives in `config.json` at the repo root. Changes are applied v
 | `currency` | `string` | `"USD"` | Display currency: `USD`, `EUR`, `GBP`, `CAD`, `AUD`, `JPY` |
 | `timezone` | `string` | `"America/Los_Angeles"` | IANA timezone for time display (see `/api/timezones`) |
 | `network_fee` | `float` | `0.5` | Mining pool fee percentage for profit calculation (0–10) |
-| `theme` | `string` | `"deepsea"` | UI theme: `deepsea`, `bitcoin`, or `matrix` |
+| `theme` | `string` | `"sea"` | UI theme: `sea`, `bitcoin`, or `matrix` |
 | `extended_history` | `bool` | `false` | Keep up to 7 days of metric history instead of 24h |
 
 > **Note:** A missing or empty `wallet` will cause all Ocean.xyz API calls to fail gracefully — the dashboard loads but shows zero values.
@@ -282,7 +282,7 @@ The `/api/stream` endpoint emits these server-sent events:
 | `Alt+4` | Navigate to Earnings |
 | `Alt+5` | Navigate to Notifications |
 | `Alt+6` | Navigate to Config |
-| `Alt+T` | Cycle theme (DeepSea → Bitcoin → Matrix) |
+| `Alt+T` | Cycle theme (Sea of Corea → Bitcoin → Matrix) |
 | `Alt+M` | Toggle audio mute |
 | `↑↑↓↓←→←→BA` | 🎮 Easter egg |
 

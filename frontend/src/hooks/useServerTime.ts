@@ -49,7 +49,7 @@ export function useServerTime(): void {
 
         if (localStorage.getItem('debugMode') === 'true') {
           console.debug(
-            '[DeepSea] Server time sync — offset:',
+            '[SoC] Server time sync — offset:',
             _offsetMs.toFixed(1),
             'ms  rtt:',
             rtt,

@@ -44,7 +44,7 @@ export const UnderwaterBubbles: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (theme !== 'deepsea') {
+    if (theme !== 'sea') {
       setBubbles([]);
       return;
     }
@@ -71,7 +71,7 @@ export const UnderwaterBubbles: React.FC = () => {
     setBubbles((prev) => prev.filter((b) => b.id !== id));
   }, []);
 
-  if (theme !== 'deepsea' || bubbles.length === 0) return null;
+  if (theme !== 'sea' || bubbles.length === 0) return null;
 
   return (
     <div

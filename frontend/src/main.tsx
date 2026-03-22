@@ -17,7 +17,7 @@ function reportError(payload: {
   url?: string;
 }) {
   // Structured console log regardless of debug mode
-  console.error('[DeepSea]', JSON.stringify({
+  console.error('[SoC]', JSON.stringify({
     type: 'global_error',
     ...payload,
     ts: new Date().toISOString(),
@@ -89,7 +89,7 @@ window.addEventListener('keydown', (e) => {
     }, 2000);
 
     if (next) {
-      console.debug('[DeepSea] Debug mode enabled');
+      console.debug('[SoC] Debug mode enabled');
     }
   }
 });

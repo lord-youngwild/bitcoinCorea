@@ -26,7 +26,7 @@ function createDroplet(): Droplet {
 }
 
 const THEME_COLORS: Record<string, { bg: string; glow: string; trail: string }> = {
-  deepsea: {
+  sea: {
     bg: 'rgba(0, 136, 204, 0.3)',
     glow: 'rgba(0, 136, 204, 0.5)',
     trail: 'rgba(0, 136, 204, 0.2)',
@@ -53,7 +53,7 @@ export const WaterDroplets: React.FC<Props> = ({ active = true }) => {
   const [condensation, setCondensation] = React.useState(false);
   const spawnTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const dripStarted = useRef(false);
-  const colors = THEME_COLORS[theme] ?? THEME_COLORS.deepsea;
+  const colors = THEME_COLORS[theme] ?? THEME_COLORS.sea;
 
   const removeDroplet = (id: number) => {
     setDroplets((prev) => prev.filter((d) => d.id !== id));

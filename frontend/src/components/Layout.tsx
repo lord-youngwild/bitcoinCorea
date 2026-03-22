@@ -51,7 +51,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)' }}>
-      {theme === 'deepsea' && <UnderwaterBubbles />}
+      {theme === 'sea' && <UnderwaterBubbles />}
       {theme === 'matrix' && <MatrixRain />}
 
       {/* CSS for responsive nav */}

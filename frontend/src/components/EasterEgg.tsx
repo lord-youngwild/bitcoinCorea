@@ -42,7 +42,7 @@ const STYLE = `
   animation: egg-overlay-fade 15s ease forwards;
   pointer-events: none;
 }
-.easter-egg-overlay.deepsea {
+.easter-egg-overlay.sea {
   background: rgba(0, 18, 30, 0.93);
   border: 2px solid #00b4d8;
 }
@@ -62,7 +62,7 @@ const STYLE = `
   margin-bottom: 16px;
   z-index: 1;
 }
-.easter-egg-overlay.deepsea .easter-egg-title { color: #00b4d8; text-shadow: 0 0 20px #00b4d8; }
+.easter-egg-overlay.sea .easter-egg-title { color: #00b4d8; text-shadow: 0 0 20px #00b4d8; }
 .easter-egg-overlay.bitcoin .easter-egg-title { color: #f7931a; text-shadow: 0 0 20px #f7931a; }
 .easter-egg-overlay.matrix  .easter-egg-title { color: #39ff14; text-shadow: 0 0 20px #39ff14; }
 
@@ -75,7 +75,7 @@ const STYLE = `
   z-index: 1;
   padding: 0 16px;
 }
-.easter-egg-overlay.deepsea .easter-egg-quote { color: #90e0ef; }
+.easter-egg-overlay.sea .easter-egg-quote { color: #90e0ef; }
 .easter-egg-overlay.bitcoin .easter-egg-quote { color: #ffd580; }
 .easter-egg-overlay.matrix  .easter-egg-quote { color: #39ff14; }
 
@@ -162,8 +162,8 @@ const EggOverlay: React.FC<EggOverlayProps> = ({ visible, theme, message, quote 
 
   const iconCount = Math.max(10, Math.floor(window.innerHeight / 30));
   const useMatrix = theme === 'matrix';
-  const useDeepSea = theme === 'deepsea';
-  const icons = useMatrix ? MATRIX_ICONS : useDeepSea ? SEA_ICONS : ['₿'];
+  const useSea = theme === 'sea';
+  const icons = useMatrix ? MATRIX_ICONS : useSea ? SEA_ICONS : ['₿'];
 
   return (
     <div className={`easter-egg-overlay ${theme}`}>
@@ -178,12 +178,12 @@ const EggOverlay: React.FC<EggOverlayProps> = ({ visible, theme, message, quote 
             top: `${Math.random() * 100}%`,
             fontSize: useMatrix
               ? `${3 + Math.random() * 1.5}rem`
-              : useDeepSea
+              : useSea
                 ? `${2 + Math.random() * 2}rem`
                 : `${4 + Math.random() * 2}rem`,
             animationDuration: `${8 + Math.random() * 4}s`,
             animationDelay: `${Math.random() * 6}s`,
-            color: useMatrix ? '#39ff14' : useDeepSea ? undefined : '#f7931a',
+            color: useMatrix ? '#39ff14' : useSea ? undefined : '#f7931a',
           }}
         >
           {icons[Math.floor(Math.random() * icons.length)]}
