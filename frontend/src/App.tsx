@@ -18,6 +18,7 @@ import { Layout } from './components/Layout';
 import { BootSequence } from './components/BootSequence';
 import { Landing } from './pages/Landing';
 import { Join } from './pages/Join';
+import { Comm } from './pages/Comm';
 /* 대시보드 확장팩 (추후 활성화)
 import { Dashboard } from './pages/Dashboard';
 import { Workers } from './pages/Workers';
@@ -54,6 +55,7 @@ function AppInner() {
         {/* ── 메인 라우트 ── */}
         <Route path="/"           element={<Landing />} />
         <Route path="/join"       element={<Join />} />
+        <Route path="/comm"       element={<Comm />} />
         <Route path="/collective" element={<Navigate to="/join" replace />} />
 
         {/* ── 대시보드 확장팩 — 추후 활성화 ── */}

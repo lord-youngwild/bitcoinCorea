@@ -2,10 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppStore } from '../stores/store';
 import { ThemeToggle } from './ThemeToggle';
-import { AudioPlayer } from './AudioPlayer';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useRetroRefresh } from '../hooks/useRetroRefresh';
 import { useThemeColor } from '../hooks/useThemeColor';
+import { useSSE } from '../hooks/useSSE';
 import { EasterEgg } from './EasterEgg';
 import { UnderwaterBubbles } from './UnderwaterBubbles';
 import { MatrixRain } from './MatrixRain';
@@ -14,8 +14,9 @@ import { UpdatePrompt } from './UpdatePrompt';
 import { InstallPrompt } from './InstallPrompt';
 
 const NAV_LINKS = [
-  { to: '/',     icon: '🌊', label: 'HOME' },
-  { to: '/join', icon: '▶',  label: '참가하기' },
+  { to: '/',     label: 'HOME' },
+  { to: '/join', label: 'JOIN' },
+  { to: '/comm', label: 'COMM' },
 ];
 
 interface Props {
@@ -26,6 +27,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
   useKeyboardShortcuts();
   useRetroRefresh();
   useThemeColor();
+  useSSE();
   const sseConnected = useAppStore((s) => s.sseConnected);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -56,7 +58,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
         /* ---- Pixel nav item ---- */
         .px-nav-item {
           font-family: var(--font-pixel);
-          font-size: 9px;
+          font-size: 13px;
           text-transform: uppercase;
           letter-spacing: 0px;
           color: var(--text-dim);
@@ -139,7 +141,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             transition: opacity 0.15s;
           }
           .nav-overlay.open { opacity: 1; pointer-events: auto; }
-          .px-nav-item { width: 100%; font-size: 9px; padding: 12px 16px; }
+          .px-nav-item { width: 100%; font-size: 13px; padding: 12px 16px; }
         }
 
         nav::-webkit-scrollbar { display: none; }
@@ -176,7 +178,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
               to={link.to}
               className={({ isActive }) => `px-nav-item${isActive ? ' active' : ''}`}
             >
-              <span style={{ fontSize: '12px', width: '16px', textAlign: 'center' }}>{link.icon}</span>
               {link.label}
             </NavLink>
           ))}
@@ -205,7 +206,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
               {sseConnected ? 'LIVE' : 'WAIT'}
             </span>
           </div>
-          <AudioPlayer />
         </div>
       </div>
 
@@ -256,17 +256,12 @@ export const Layout: React.FC<Props> = ({ children }) => {
         </button>
 
         {/* Logo */}
-        <NavLink to="/dashboard" style={{ textDecoration: 'none', flexShrink: 0 }}>
-          <span style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '11px',
-            color: 'var(--primary)',
-            textShadow: '2px 2px 0 rgba(0,0,0,0.9), 0 0 12px var(--primary-glow)',
-            letterSpacing: '1px',
-            lineHeight: '1.6',
-          }}>
-            🌊 SoC
-          </span>
+        <NavLink to="/" style={{ textDecoration: 'none', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+          <img
+            src="/soc-logo.png"
+            alt="Sea of Corea"
+            style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'drop-shadow(0 0 6px rgba(255,157,42,0.4))' }}
+          />
         </NavLink>
 
         {/* Pixel divider */}
@@ -293,7 +288,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
               to={link.to}
               className={({ isActive }) => `px-nav-item${isActive ? ' active' : ''}`}
             >
-              {link.icon} {link.label}
+              {link.label}
             </NavLink>
           ))}
         </nav>
@@ -311,7 +306,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
               flexShrink: 0,
             }}
           />
-          <span className="nav-desktop" style={{ display: 'flex' }}><AudioPlayer /></span>
           <ThemeToggle />
         </div>
       </header>
@@ -344,7 +338,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
           color: 'var(--text-dim)',
           letterSpacing: '1px',
         }}>
-          SoC v2.0.3
+          SoC v1.0.3
         </span>
         <a
           href="https://x.com/PromenadeCastle"

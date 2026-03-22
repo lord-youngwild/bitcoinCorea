@@ -31,3 +31,9 @@ logs/
 # OS
 .DS_Store
 config.json
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+/data/

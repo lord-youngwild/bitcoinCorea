@@ -1,13 +1,9 @@
 /**
  * Landing.tsx — Sea of Corea 공개 랜딩페이지
  *
- * 핵심:
- * 1. Collective 총 해시레이트 — 히어로 대문짝
- * 2. "채굴조합 참가하기" CTA → /join
- * 3. Sea of Corea 철학
- * 4. 공개 조합원 목록
- *
- * 지갑 설정 불필요. 퍼블릭 엔드포인트(/api/collective/stats)만 사용.
+ * 디자인: 우주정거장 콕핏에서 바다를 내려다보는 뷰
+ * 배경: space-ocean.png
+ * 폰트: Press Start 2P (라벨), Share Tech Mono (한글/데이터), VT323 (숫자)
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
@@ -24,6 +20,7 @@ interface StatsData {
     display_name: string;
     hashrate: number;
     hashrate_unit: string;
+    wallet?: string;
   }>;
   fetched_at: string;
 }
@@ -45,16 +42,32 @@ function scaleHashrate(value: number, unit: string): { display: string; unit: st
   return               { display: th.toFixed(2),                       unit: 'TH/S' };
 }
 
-/* ── 인용구 (해시카운터 아래에 랜덤 노출) ─────────────────────── */
+/* ── 인용구 ─────────────────────────────────────────────────── */
 const SOC_QUOTES = [
   '바다는 너무 넓어서 자신이 어떤 존재인지 알 수 없었다.',
-  '그 순간 물방울은 더 이상 한 방울의 물이 아니었습니다.',
+  '그 순간 물방울은 더 이상 한 방울의 물이 아니었다.',
   '우리는 물방울처럼 보이지만, 근원 의식이 자신을 경험하는 한 조각의 신성입니다.',
   'Each drop believes itself separate — yet all return to the same sea.',
   'Not a drop is lost. Every one returns.',
   'We mine not for ourselves alone — we mine for the whole ocean.',
-  '한 물방울이 깨닫습니다: "나는 단순한 물방울이 아니라 바다의 일부였구나."',
+  '한 물방울은 깨닫는다: "나는 단순한 물방울이 아니라 바다의 일부였구나."',
 ];
+
+/* ── SF 색상 팔레트 ────────────────────────────────────────── */
+const C = {
+  void:      '#04060f',
+  deep:      '#090e20',
+  glowBlue:  '#20B2AA',
+  glowCyan:  '#20B2AA',
+  glowAmber: '#ff9d2a',
+  glowGold:  '#ffc847',
+  textHi:    '#9adcd8',
+  textMd:    '#2e7a76',
+  textLo:    '#154a48',
+  panelBg:   'rgba(9,14,32,0.75)',
+};
+
+
 
 /* ── 컴포넌트 ─────────────────────────────────────────────── */
 export const Landing: React.FC = () => {
@@ -65,350 +78,288 @@ export const Landing: React.FC = () => {
     try {
       const data = await fetchCollectiveStats();
       setStats(data as StatsData);
-    } catch {
-      /* 조용한 실패 — 로딩 상태 유지 */
-    }
+    } catch { /* silent */ }
   }, []);
 
   useEffect(() => {
     load();
-    const iv = setInterval(load, 60_000); // 1분 폴링
+    const iv = setInterval(load, 60_000);
     return () => clearInterval(iv);
   }, [load]);
 
-  const scaled = stats
-    ? scaleHashrate(stats.total_hashrate, stats.total_hashrate_unit)
-    : null;
+  const scaled = stats ? scaleHashrate(stats.total_hashrate, stats.total_hashrate_unit) : null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
 
+      {/* ── 애니메이션 키프레임 ── */}
+      <style>{`
+        @keyframes scanBeam {
+          0%   { transform: translateX(-100%); opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 1; }
+          100% { transform: translateX(400%); opacity: 0; }
+        }
+        @keyframes logoDrift {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-6px); }
+        }
+        @keyframes ledPulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.4; }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .soc-below-hero {
+          position: relative;
+          background: var(--bg);
+        }
+        .soc-cta-btn {
+          position: relative;
+          font-family: var(--font-pixel);
+          font-size: clamp(12px, 1.8vw, 15px);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: ${C.glowAmber};
+          background: rgba(255,157,42,0.06);
+          border: 1.5px solid rgba(255,157,42,0.45);
+          padding: clamp(14px, 3vw, 20px) clamp(32px, 6vw, 56px);
+          cursor: pointer;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+          line-height: 1.8;
+        }
+        .soc-cta-btn:hover {
+          background: rgba(255,157,42,0.12);
+          border-color: rgba(255,157,42,0.8);
+          box-shadow:
+            0 0 24px rgba(255,157,42,0.45),
+            0 0 60px rgba(255,157,42,0.18),
+            inset 0 0 20px rgba(255,157,42,0.06);
+          color: #ffc878;
+        }
+        .soc-cta-btn:active {
+          background: rgba(255,157,42,0.18);
+        }
+        .soc-panel {
+          position: relative;
+          background: ${C.panelBg};
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(0,212,255,0.15);
+          overflow: hidden;
+        }
+        .soc-scan-beam {
+          position: absolute;
+          top: 0; bottom: 0;
+          width: 25%;
+          background: linear-gradient(to right, transparent, rgba(0,212,255,0.06), transparent);
+          animation: scanBeam 4s ease-in-out infinite;
+          pointer-events: none;
+        }
+        @media (max-width: 640px) {
+          .soc-cta-btn { font-size: 14px; padding: 14px 28px; }
+        }
+      `}</style>
+
       {/* ══════════════════════════════════════════════
-          HERO — collective hashrate 대문짝
+          HERO — space-ocean 배경
           ══════════════════════════════════════════════ */}
       <section style={{
-        minHeight: 'calc(100vh - 120px)',
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '40px 16px',
-        textAlign: 'center',
-        position: 'relative',
-        gap: '0',
+        animation: 'fadeUp 0.8s ease-out both',
       }}>
-
-        {/* 브랜드 타이틀 */}
-        <div style={{
-          fontFamily: 'var(--font-pixel)',
-          fontSize: 'clamp(10px, 2.5vw, 16px)',
-          color: 'var(--text-dim)',
-          letterSpacing: '3px',
-          marginBottom: '8px',
-          lineHeight: '2',
-        }}>
-          🌊 SEA OF COREA
-        </div>
-        <div style={{
-          fontFamily: 'var(--font-pixel)',
-          fontSize: 'clamp(7px, 1.5vw, 10px)',
-          color: 'var(--text-dim)',
-          letterSpacing: '2px',
-          marginBottom: '48px',
-          lineHeight: '2',
-        }}>
-          탈중앙 채굴조합
-        </div>
-
-        {/* ── 해시레이트 카운터 메인 히어로 ── */}
-        <div style={{
-          width: '100%',
-          maxWidth: '800px',
-          padding: '32px 24px 28px',
-          background: 'var(--bg-card)',
-          border: '4px solid var(--primary)',
-          boxShadow: `
-            inset 2px 2px 0 0 rgba(255,255,255,0.07),
-            inset -2px -2px 0 0 rgba(0,0,0,0.4),
-            6px 6px 0 0 rgba(0,0,0,0.6),
-            0 0 40px var(--primary-glow)
-          `,
-          position: 'relative',
-          marginBottom: '40px',
-        }}>
-          {/* 카드 내부 이중 테두리 */}
-          <div style={{
+        <img
+          src="/space-ocean.png"
+          alt=""
+          style={{
             position: 'absolute',
-            inset: '4px',
-            border: '2px solid var(--border)',
+            top: 0, left: 0, right: 0, bottom: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center center',
+            zIndex: 0,
             pointerEvents: 'none',
-          }} />
+          }}
+        />
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: 1,
+          background: 'radial-gradient(ellipse at 50% 40%, transparent 22%, rgba(6,10,18,0.4) 50%, rgba(6,10,18,0.88) 100%)',
+          pointerEvents: 'none',
+        }} />
 
-          {/* 라벨 */}
+        {/* 콘텐츠 */}
+        <div style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 16px 60px', textAlign: 'center' }}>
+        <div style={{ width: '100%', maxWidth: '760px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0' }}>
+
+          {/* 로고 */}
+          <img
+            src="/soc-logo.png"
+            alt="Sea of Corea"
+            style={{
+              width: 'clamp(64px, 10vw, 88px)',
+              height: 'auto',
+              marginBottom: '20px',
+              filter: 'drop-shadow(0 0 10px rgba(255,157,42,0.3))',
+              animation: 'logoDrift 4s ease-in-out infinite',
+            }}
+          />
+
+          {/* 브랜드 타이틀 */}
           <div style={{
             fontFamily: 'var(--font-pixel)',
-            fontSize: 'clamp(7px, 1.5vw, 10px)',
-            color: 'var(--text-dim)',
-            letterSpacing: '2px',
-            marginBottom: '16px',
+            fontSize: 'clamp(13px, 3vw, 20px)',
+            color: C.textHi,
+            letterSpacing: '6px',
+            marginBottom: '6px',
           }}>
-            COLLECTIVE HASHRATE
+            SEA OF COREA
           </div>
-
-          {/* 해시레이트 숫자 */}
-          {scaled ? (
-            <div style={{
-              display: 'flex',
-              alignItems: 'baseline',
-              justifyContent: 'center',
-              gap: '12px',
-              lineHeight: '1',
-            }}>
-              <span style={{
-                fontFamily: 'var(--font-vt323)',
-                fontSize: 'clamp(64px, 16vw, 140px)',
-                color: 'var(--primary)',
-                textShadow: `
-                  3px 3px 0 rgba(0,0,0,0.9),
-                  0 0 30px var(--primary),
-                  0 0 60px var(--primary-glow)
-                `,
-                lineHeight: '0.9',
-              }}>
-                {scaled.display}
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 'clamp(12px, 3vw, 22px)',
-                color: 'var(--primary)',
-                textShadow: '2px 2px 0 rgba(0,0,0,0.8)',
-                lineHeight: '1',
-                paddingBottom: '8px',
-              }}>
-                {scaled.unit}
-              </span>
-            </div>
-          ) : (
-            /* 로딩 상태 — 픽셀 블록 애니메이션 */
-            <div style={{
-              fontFamily: 'var(--font-vt323)',
-              fontSize: 'clamp(48px, 12vw, 100px)',
-              color: 'var(--text-dim)',
-              lineHeight: '0.9',
-              animation: 'blink 1s step-start infinite',
-            }}>
-              ---.-- TH/S
-            </div>
-          )}
-
-          {/* 서브 스탯: 활성 채굴자 */}
           <div style={{
-            marginTop: '20px',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '32px',
-            flexWrap: 'wrap',
+            fontFamily: 'var(--font-pixel)',
+            fontSize: 'clamp(10px, 1.8vw, 13px)',
+            color: C.textMd,
+            letterSpacing: '4px',
+            marginBottom: '40px',
           }}>
-            <div>
-              <span style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 'clamp(7px, 1.5vw, 9px)',
-                color: 'var(--text-dim)',
-                letterSpacing: '1px',
-              }}>
-                ACTIVE MINERS
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-vt323)',
-                fontSize: 'clamp(22px, 5vw, 36px)',
-                color: 'var(--color-success)',
-                textShadow: '0 0 10px var(--color-success)',
-                marginLeft: '10px',
-              }}>
-                {stats?.active_participants ?? '—'}
-              </span>
-            </div>
-            <div>
-              <span style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 'clamp(7px, 1.5vw, 9px)',
-                color: 'var(--text-dim)',
-                letterSpacing: '1px',
-              }}>
-                MEMBERS
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-vt323)',
-                fontSize: 'clamp(22px, 5vw, 36px)',
-                color: 'var(--text)',
-                marginLeft: '10px',
-              }}>
-                {stats?.total_participants ?? '—'}
-              </span>
-            </div>
+            탈중앙 채굴조합
           </div>
 
-          {/* 마지막 업데이트 */}
-          {stats && (
+          {/* ── 해시레이트 패널 ── */}
+          <div className="soc-panel" style={{
+            width: '100%',
+            padding: '28px 28px 24px',
+            marginBottom: '32px',
+          }}>
+            <div className="soc-scan-beam" />
+
+            {/* 라벨 */}
             <div style={{
               fontFamily: 'var(--font-pixel)',
-              fontSize: '7px',
-              color: 'var(--border)',
-              marginTop: '14px',
-              letterSpacing: '1px',
+  
+              fontSize: 'clamp(9px, 1.5vw, 11px)',
+              color: C.textLo,
+              letterSpacing: '3px',
+              marginBottom: '14px',
             }}>
-              UPDATED {new Date(stats.fetched_at).toLocaleTimeString('ko-KR')}
+              ◈ COLLECTIVE HASHRATE
             </div>
-          )}
+
+            {/* 숫자 */}
+            {scaled ? (
+              <div style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'10px', lineHeight:'1' }}>
+                <span style={{
+                  fontFamily: 'var(--font-vt323)',
+                  fontSize: 'clamp(60px, 15vw, 130px)',
+                  color: C.glowGold,
+                  textShadow: `0 0 24px rgba(255,200,71,0.55), 0 0 60px rgba(255,200,71,0.2)`,
+                  lineHeight: '0.9',
+                }}>
+                  {scaled.display}
+                </span>
+                <span style={{
+                  fontFamily: 'var(--font-pixel)',
+      
+                  fontSize: 'clamp(14px, 3vw, 22px)',
+                  color: C.textMd,
+                  letterSpacing: '1px',
+                  paddingBottom: '8px',
+                }}>
+                  {scaled.unit}
+                </span>
+              </div>
+            ) : (
+              <div style={{
+                fontFamily: 'var(--font-vt323)',
+                fontSize: 'clamp(48px, 12vw, 100px)',
+                color: C.textLo,
+                lineHeight: '0.9',
+                animation: 'blink 1s step-start infinite',
+              }}>
+                ---.-- TH/S
+              </div>
+            )}
+
+            {/* 서브 스탯 */}
+            <div style={{
+              marginTop: '20px',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1px 1fr',
+              gap: '0',
+              maxWidth: '400px',
+              margin: '20px auto 0',
+            }}>
+              <div style={{ textAlign:'center', padding:'8px 0' }}>
+                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textLo, letterSpacing:'2px', marginBottom:'4px' }}>ACTIVE MINERS</div>
+                <div style={{ fontFamily:'var(--font-vt323)', fontSize:'clamp(22px,5vw,34px)', color:C.glowCyan, textShadow:`0 0 10px rgba(0,212,255,0.5)` }}>
+                  {stats?.active_participants ?? '—'}
+                </div>
+              </div>
+              <div style={{ background:`linear-gradient(to bottom, transparent, rgba(0,212,255,0.2), transparent)`, width:'1px' }} />
+              <div style={{ textAlign:'center', padding:'8px 0' }}>
+                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textLo, letterSpacing:'2px', marginBottom:'4px' }}>MEMBERS</div>
+                <div style={{ fontFamily:'var(--font-vt323)', fontSize:'clamp(22px,5vw,34px)', color:C.textMd }}>
+                  {stats?.total_participants ?? '—'}
+                </div>
+              </div>
+            </div>
+
+            {/* 업데이트 시각 */}
+            {stats && (
+              <div style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                color: C.textLo,
+                marginTop: '16px',
+                letterSpacing: '1px',
+              }}>
+                UPDATED {new Date(stats.fetched_at).toLocaleTimeString('ko-KR')}
+              </div>
+            )}
+          </div>
+
+        </div>
         </div>
 
-        {/* ── 인용구 ── */}
+        {/* 스크롤 힌트 — 히어로 하단 고정 */}
         <div style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 'clamp(11px, 2vw, 14px)',
-          color: 'var(--text-dim)',
-          maxWidth: '560px',
-          lineHeight: '1.8',
-          fontStyle: 'italic',
-          marginBottom: '40px',
-          padding: '0 8px',
-        }}>
-          "{SOC_QUOTES[quoteIdx]}"
-        </div>
-
-        {/* ── CTA 버튼 — 채굴조합 참가하기 ── */}
-        <Link to="/join" style={{ textDecoration: 'none' }}>
-          <button
-            style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: 'clamp(9px, 2vw, 13px)',
-              color: 'var(--bg)',
-              background: 'var(--primary)',
-              border: '4px solid var(--primary)',
-              padding: 'clamp(12px, 3vw, 18px) clamp(20px, 5vw, 40px)',
-              cursor: 'pointer',
-              letterSpacing: '1px',
-              lineHeight: '1.6',
-              textTransform: 'uppercase',
-              boxShadow: `
-                inset 3px 3px 0 0 rgba(255,255,255,0.2),
-                inset -3px -3px 0 0 rgba(0,0,0,0.3),
-                6px 6px 0 0 rgba(0,0,0,0.6),
-                0 0 20px var(--primary-glow)
-              `,
-              transition: 'none',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg)';
-              (e.currentTarget as HTMLButtonElement).style.color = 'var(--primary)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'var(--primary)';
-              (e.currentTarget as HTMLButtonElement).style.color = 'var(--bg)';
-            }}
-            onMouseDown={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translate(6px, 6px)';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 8px var(--primary-glow)';
-            }}
-            onMouseUp={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = '';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = `
-                inset 3px 3px 0 0 rgba(255,255,255,0.2),
-                inset -3px -3px 0 0 rgba(0,0,0,0.3),
-                6px 6px 0 0 rgba(0,0,0,0.6),
-                0 0 20px var(--primary-glow)
-              `;
-            }}
-          >
-            ▶ 채굴조합 참가하기
-          </button>
-        </Link>
-
-        {/* 스크롤 힌트 */}
-        <div style={{
-          marginTop: '48px',
+          position: 'absolute',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
           fontFamily: 'var(--font-pixel)',
-          fontSize: '8px',
-          color: 'var(--border)',
-          letterSpacing: '1px',
+          fontSize: '10px',
+          color: C.textLo,
+          letterSpacing: '2px',
           animation: 'blink 1.5s step-start infinite',
+          zIndex: 1,
         }}>
           ▼ SCROLL
         </div>
       </section>
 
+
+      <div className="soc-below-hero">
+
       {/* ══════════════════════════════════════════════
-          PHILOSOPHY SECTION
+          CTA
           ══════════════════════════════════════════════ */}
-      <section style={{
-        padding: '48px 16px',
-        maxWidth: '720px',
-        margin: '0 auto',
-        width: '100%',
-      }}>
-        <div style={{
-          background: 'var(--bg-card)',
-          border: '4px solid var(--border)',
-          padding: '32px',
-          boxShadow: '4px 4px 0 0 rgba(0,0,0,0.5)',
-          position: 'relative',
-        }}>
-          <div style={{ position: 'absolute', inset: '4px', border: '2px solid var(--bg-hover)', pointerEvents: 'none' }} />
-
-          <div style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '9px',
-            color: 'var(--primary)',
-            letterSpacing: '2px',
-            marginBottom: '24px',
-          }}>
-            ◈ SEA OF COREA란
-          </div>
-
-          <div style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '13px',
-            color: 'var(--text)',
-            lineHeight: '2.2',
-            whiteSpace: 'pre-line',
-          }}>
-{`그 바다는 너무 넓어서
-자신이 어떤 존재인지 알 수 없었다.
-그래서 바다는 자신을 보기 위해
-수많은 물방울로 나뉘었다.
-
-그 물방울들은
-비가 되어 떨어지고
-강이 되어 흐르고
-사람의 눈물이 되기도 했다.
-
-각각의 물방울은
-자신이 바다라는 사실을 잊은 채
-서로 다른 존재라고 생각하며 살아간다.
-
-하지만 어느 날
-한 물방울이 깨닫습니다.
-"나는 단순한 물방울이 아니라
-바다의 일부였구나."
-
-그 순간 물방울은 더 이상
-한 방울의 물이 아니었습니다.`}
-          </div>
-
-          <div style={{
-            marginTop: '28px',
-            paddingTop: '20px',
-            borderTop: '3px solid var(--border)',
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '8px',
-            color: 'var(--text-dim)',
-            lineHeight: '2.2',
-            letterSpacing: '0.5px',
-          }}>
-            우리는 물방울처럼 보이지만<br />
-            근원 의식이 자신을 경험하는 한 조각의 신성입니다.
-          </div>
-        </div>
+      <section style={{ padding: '64px 16px 48px', textAlign: 'center' }}>
+        <Link to="/join" style={{ textDecoration: 'none' }}>
+          <button className="soc-cta-btn">
+            ▶ 채굴조합 참가하기
+          </button>
+        </Link>
       </section>
 
       {/* ══════════════════════════════════════════════
@@ -421,25 +372,21 @@ export const Landing: React.FC = () => {
           margin: '0 auto',
           width: '100%',
         }}>
-          <div style={{
-            background: 'var(--bg-card)',
-            border: '4px solid var(--border)',
-            boxShadow: '4px 4px 0 0 rgba(0,0,0,0.5)',
-            position: 'relative',
-          }}>
-            <div style={{ position: 'absolute', inset: '4px', border: '2px solid var(--bg-hover)', pointerEvents: 'none' }} />
-
+          <div className="soc-panel" style={{ overflow: 'hidden' }}>
+            <div className="soc-scan-beam" />
+  
             <div style={{
-              padding: '16px 20px 12px',
-              borderBottom: '3px solid var(--border)',
+              padding: '16px 24px 12px',
+              borderBottom: `1px solid rgba(0,212,255,0.12)`,
             }}>
               <span style={{
                 fontFamily: 'var(--font-pixel)',
-                fontSize: '9px',
-                color: 'var(--text-dim)',
-                letterSpacing: '2px',
+                fontWeight: 400,
+                fontSize: '11px',
+                color: C.glowCyan,
+                letterSpacing: '3px',
               }}>
-                ◈ 공개 조합원
+                ◈ 조합원 명부
               </span>
             </div>
 
@@ -449,22 +396,30 @@ export const Landing: React.FC = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '8px 20px',
-                  background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                  padding: '9px 24px',
+                  background: i % 2 === 0 ? 'rgba(0,212,255,0.02)' : 'transparent',
+                  borderBottom: `1px solid rgba(0,212,255,0.04)`,
+                  flexWrap: 'wrap',
+                  gap: '4px',
                 }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--text)', display: 'flex', gap: '10px' }}>
-                    <span style={{ color: 'var(--text-dim)', fontFamily: 'var(--font-pixel)', fontSize: '8px', minWidth: '28px' }}>
+                  <span style={{ display:'flex', gap:'12px', alignItems:'center' }}>
+                    <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', color:C.textLo, minWidth:'24px' }}>
                       {String(i + 1).padStart(2, '0')}.
                     </span>
-                    {p.display_name}
+                    <span style={{ display:'flex', flexDirection:'column', gap:'2px' }}>
+                      <span style={{ fontFamily:'var(--font-mono)', fontSize:'14px', color:C.textHi }}>
+                        {p.display_name}
+                      </span>
+                      {p.wallet && (
+                        <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', color:C.textLo, letterSpacing:'0.5px' }}>
+                          {p.wallet}
+                        </span>
+                      )}
+                    </span>
                   </span>
-                  <span style={{
-                    fontFamily: 'var(--font-vt323)',
-                    fontSize: '20px',
-                    color: 'var(--primary)',
-                    textShadow: '0 0 6px var(--primary-glow)',
-                  }}>
-                    {p.hashrate.toFixed(2)} <span style={{ fontSize: '14px', color: 'var(--text-dim)' }}>{p.hashrate_unit}</span>
+                  <span style={{ fontFamily:'var(--font-mono)', fontSize:'16px', color:C.glowCyan, textShadow:`0 0 6px rgba(0,212,255,0.4)` }}>
+                    {p.hashrate.toFixed(2)}{' '}
+                    <span style={{ fontSize:'11px', color:C.textLo }}>{p.hashrate_unit}</span>
                   </span>
                 </div>
               ))}
@@ -474,32 +429,80 @@ export const Landing: React.FC = () => {
       )}
 
       {/* ══════════════════════════════════════════════
+          단체소개 + 인용구
+          ══════════════════════════════════════════════ */}
+      <section style={{
+        padding: '0 16px 48px',
+        maxWidth: '720px',
+        margin: '0 auto',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '16px',
+      }}>
+        <div style={{
+          width: '100%',
+          padding: '20px 24px',
+          background: 'rgba(255,157,42,0.04)',
+          border: '1px solid rgba(255,157,42,0.4)',
+          textAlign: 'left',
+        }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'clamp(12px, 2vw, 14px)',
+            color: C.textHi,
+            lineHeight: '2',
+            whiteSpace: 'pre-line',
+          }}>{`Sea of Corea는 비트코인 탈중앙 채굴조합입니다.
+우리는 로컬 해시레이트를 모아 바다를 이루고
+각자의 파도로 춤추듯 일렁이며
+누구의 허락도 필요없는 자유를 항해합니다.
+소버린 채굴을 실천하여 탈중앙화 주권은 개인으로,
+비트코인 네트워크의 힘은 우리의 바다 깊숙이 가라앉습니다.
+참여는 자발적이며, 존재는 주권적으로, 채굴은 자연적으로 흘러갑니다.`}</div>
+        </div>
+
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 'clamp(11px, 2vw, 13px)',
+          color: C.textMd,
+          maxWidth: '560px',
+          lineHeight: '2',
+          fontStyle: 'italic',
+          padding: '0 8px',
+          textAlign: 'center',
+        }}>
+          "{SOC_QUOTES[quoteIdx]}"
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
           BOTTOM CTA
           ══════════════════════════════════════════════ */}
       <section style={{
-        padding: '48px 16px 64px',
+        padding: '48px 16px 72px',
         textAlign: 'center',
       }}>
         <div style={{
-          fontFamily: 'var(--font-pixel)',
-          fontSize: 'clamp(7px, 1.5vw, 9px)',
-          color: 'var(--text-dim)',
+          fontFamily: 'var(--font-mono)',
+          fontWeight: 200,
+          fontSize: 'clamp(12px, 2vw, 14px)',
+          color: C.textMd,
           letterSpacing: '1px',
-          marginBottom: '20px',
+          marginBottom: '24px',
           lineHeight: '2',
         }}>
-          Ocean.xyz 채굴자라면 누구나 참가할 수 있습니다
+          Ocean.xyz 및 Datum 풀마이닝중인 채굴자라면 누구나 참가 가능합니다
         </div>
-        <Link to="/join" style={{ textDecoration: 'none' }}>
-          <button className="btn btn-primary" style={{
-            fontSize: '9px',
-            padding: '10px 24px',
-          }}>
-            ▶ 참가하기
+        <a href="https://ocean.xyz/docs" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+          <button className="soc-cta-btn">
+            ▶ 오션풀 알아보기
           </button>
-        </Link>
+        </a>
       </section>
 
+      </div>
     </div>
   );
 };

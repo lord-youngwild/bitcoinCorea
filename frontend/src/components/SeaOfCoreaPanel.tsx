@@ -85,7 +85,7 @@ export const SeaOfCoreaPanel: React.FC<Props> = ({ onRegistered }) => {
     try {
       const res = await registerCollective({
         wallet: form.wallet.trim(),
-        display_name: form.display_name.trim() || undefined,
+        display_name: form.display_name.trim(),
         is_public: form.is_public,
       });
       setRegisterMsg({ type: 'success', text: res.message });
@@ -168,6 +168,7 @@ export const SeaOfCoreaPanel: React.FC<Props> = ({ onRegistered }) => {
               value={form.display_name}
               onChange={(e) => setForm((f) => ({ ...f, display_name: e.target.value }))}
               maxLength={32}
+              required
             />
           </div>
 

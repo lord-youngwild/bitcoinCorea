@@ -44,7 +44,7 @@ const BOOT_SCRIPT: BootEntry[] = [
   // Phase 6 — Final checks
   ['RUNNING SELF-DIAGNOSTICS...', 400, 'ok'],
   ['ALL SYSTEMS NOMINAL', 200, 'done'],
-  ['SYSTEM READY — Sea of Corea에 오신 것을 환영합니다 🌊', 0, 'done'],
+  ['SYSTEM READY — Sea of Corea에 오신 것을 환영합니다', 0, 'done'],
 ];
 
 /* ── Status colors ────────────────────────────────────────────── */
@@ -141,7 +141,12 @@ export const BootSequence: React.FC<Props> = ({ onComplete }) => {
           textAlign: 'center',
         }}
       >
-        🌊 SEA OF COREA
+        <img
+          src="/soc-logo.png"
+          alt="SoC"
+          style={{ width: '40px', height: '40px', objectFit: 'contain', filter: 'drop-shadow(0 0 8px rgba(255,157,42,0.4))', display: 'block', margin: '0 auto 12px' }}
+        />
+        SEA OF COREA
       </div>
 
       {/* Pixel block progress bar */}

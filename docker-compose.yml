@@ -39,6 +39,14 @@ services:
       retries: 3
       start_period: 15s
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    network_mode: "host"
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+
 volumes:
   soc-data:
     driver: local

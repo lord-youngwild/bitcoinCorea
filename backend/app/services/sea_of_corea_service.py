@@ -118,14 +118,16 @@ async def get_collective_stats(
                 active_count += 1
                 total_ths += effective_hr
 
+                display_name = row["display_name"] or wallet[:8] + "..."
+                val, unit = format_hashrate(effective_hr)
+                entry = {
+                    "display_name": display_name,
+                    "hashrate": val,
+                    "hashrate_unit": unit,
+                }
                 if row["is_public"]:
-                    display_name = row["display_name"] or wallet[:8] + "..."
-                    val, unit = format_hashrate(effective_hr)
-                    public_list.append({
-                        "display_name": display_name,
-                        "hashrate": val,
-                        "hashrate_unit": unit,
-                    })
+                    entry["wallet"] = wallet
+                public_list.append(entry)
 
     val, unit = format_hashrate(total_ths) if total_ths > 0 else (0.0, "TH/s")
 

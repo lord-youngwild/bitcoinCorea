@@ -33,7 +33,7 @@ def _validate_wallet(wallet: str) -> str:
 class RegisterRequest(BaseModel):
     wallet: str = Field(..., description="Bitcoin 지갑 주소")
     display_name: Optional[str] = Field(None, max_length=32, description="공개 표시 이름 (선택)")
-    is_public: bool = Field(False, description="커뮤니티에 해시레이트 공개 여부")
+    is_public: bool = Field(False, description="지갑주소 공개 여부")
 
 
 class RegisterResponse(BaseModel):
