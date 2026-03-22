@@ -14,13 +14,8 @@ import { UpdatePrompt } from './UpdatePrompt';
 import { InstallPrompt } from './InstallPrompt';
 
 const NAV_LINKS = [
-  { to: '/dashboard', icon: '▣', label: 'DASHBOARD' },
-  { to: '/workers',   icon: '⚙', label: 'WORKERS' },
-  { to: '/blocks',    icon: '⛏', label: 'BLOCKS' },
-  { to: '/earnings',  icon: '₿', label: 'EARNINGS' },
-  { to: '/notifications', icon: '!', label: 'ALERTS' },
-  { to: '/collective', icon: '~', label: 'SoC' },
-  { to: '/config',    icon: '*', label: 'CONFIG' },
+  { to: '/',     icon: '🌊', label: 'HOME' },
+  { to: '/join', icon: '▶',  label: '참가하기' },
 ];
 
 interface Props {
@@ -32,7 +27,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
   useRetroRefresh();
   useThemeColor();
   const sseConnected = useAppStore((s) => s.sseConnected);
-  const unreadCount = useAppStore((s) => s.unreadCount);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -184,11 +178,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
             >
               <span style={{ fontSize: '12px', width: '16px', textAlign: 'center' }}>{link.icon}</span>
               {link.label}
-              {link.to === '/notifications' && unreadCount > 0 && (
-                <span className="notif-dot" style={{ position: 'relative', top: 'auto', right: 'auto', marginLeft: 'auto' }}>
-                  {unreadCount > 99 ? '99+' : unreadCount}
-                </span>
-              )}
             </NavLink>
           ))}
         </nav>
@@ -305,11 +294,6 @@ export const Layout: React.FC<Props> = ({ children }) => {
               className={({ isActive }) => `px-nav-item${isActive ? ' active' : ''}`}
             >
               {link.icon} {link.label}
-              {link.to === '/notifications' && unreadCount > 0 && (
-                <span className="notif-dot">
-                  {unreadCount > 99 ? '99+' : unreadCount}
-                </span>
-              )}
             </NavLink>
           ))}
         </nav>
