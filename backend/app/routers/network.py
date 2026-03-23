@@ -52,7 +52,7 @@ async def get_network_stats():
     total_reward_btc = int(reward.get("totalReward", 0)) / 1e8
     total_fee_sat = int(reward.get("totalFee", 0))
     total_tx = int(reward.get("totalTx", 1)) or 1
-    block_count_144 = int(reward.get("endBlock", 0)) - int(reward.get("startBlock", 0)) or 144
+    block_count_144 = int(reward.get("endBlock", 0)) - int(reward.get("startBlock", 0)) + 1 or 144
 
     avg_block_fee_btc = (total_fee_sat / block_count_144) / 1e8
     avg_tx_fee_sat = total_fee_sat / total_tx
