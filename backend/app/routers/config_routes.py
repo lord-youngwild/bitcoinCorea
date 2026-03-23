@@ -2,9 +2,11 @@
 
 import asyncio
 import logging
+import os
+import secrets
 
 import pytz
-from fastapi import APIRouter
+from fastapi import APIRouter, Header, HTTPException
 from fastapi.concurrency import run_in_threadpool
 
 from app import background
@@ -12,20 +14,32 @@ from app.config import load_config, save_config
 from app.models import AppConfig, ConfigUpdate
 
 _log = logging.getLogger(__name__)
+_ADMIN_KEY = os.environ.get("ADMIN_API_KEY", "")
 
 router = APIRouter()
 
 
+def _mask_wallet(wallet: str) -> str:
+    """지갑 주소 마스킹: 앞 6자 + *** + 뒤 4자."""
+    if not wallet or len(wallet) < 10:
+        return wallet
+    return f"{wallet[:6]}...{wallet[-4:]}"
+
+
+def _require_admin(x_admin_key: str = Header(default="")) -> None:
+    """ADMIN_API_KEY 헤더 검증 — 일치하지 않으면 403."""
+    if not _ADMIN_KEY:
+        raise HTTPException(status_code=503, detail="Admin key not configured on server")
+    if not secrets.compare_digest(x_admin_key, _ADMIN_KEY):
+        raise HTTPException(status_code=403, detail="Invalid admin key")
+
+
 @router.get("/config", response_model=AppConfig, tags=["config"])
 async def get_config() -> AppConfig:
-    """Return the current dashboard configuration.
-
-    Reads from ``config.json`` at the repo root. All fields have safe defaults
-    so this endpoint always returns a valid response even if the file is missing.
-    """
+    """Return the current dashboard configuration (wallet address masked)."""
     cfg = await run_in_threadpool(load_config)
     return AppConfig(
-        wallet=cfg.get("wallet", ""),
+        wallet=_mask_wallet(cfg.get("wallet", "")),
         power_cost=float(cfg.get("power_cost", 0.12)),
         power_usage=float(cfg.get("power_usage", 3450)),
         currency=cfg.get("currency", "USD"),
@@ -36,17 +50,15 @@ async def get_config() -> AppConfig:
 
 
 @router.post("/config", response_model=AppConfig, tags=["config"])
-async def update_config(payload: ConfigUpdate) -> AppConfig:
-    """Update dashboard configuration and trigger a background metrics refresh.
-
-    Only provided (non-null) fields are updated — omitted fields retain their
-    current values. The config is saved atomically and a metrics refresh is
-    fired in the background so new data reflects the new wallet/settings.
-    """
+async def update_config(
+    payload: ConfigUpdate,
+    x_admin_key: str = Header(default=""),
+) -> AppConfig:
+    """Update dashboard configuration — requires X-Admin-Key header."""
+    _require_admin(x_admin_key)
     update = {k: v for k, v in payload.model_dump().items() if v is not None}
     await run_in_threadpool(save_config, update)
 
-    # Fire-and-forget: don't block the response waiting for Ocean API calls
     asyncio.ensure_future(_safe_refresh())
 
     return await get_config()

@@ -14,10 +14,7 @@ router = APIRouter()
 _log = logging.getLogger(__name__)
 
 # Local Mempool node URL (StartOS) — override via MEMPOOL_LOCAL_URL env var
-MEMPOOL_LOCAL = os.environ.get(
-    "MEMPOOL_LOCAL_URL",
-    "https://rwbq5qjtjlvuje4d5jrqddzntadcmjnzqkr2bwmmjjnmrey73bjr2iqd.local",
-)
+MEMPOOL_LOCAL = os.environ.get("MEMPOOL_LOCAL_URL", "")
 _TIMEOUT = httpx.Timeout(15.0, connect=8.0)
 
 
@@ -37,6 +34,8 @@ def _hashrate_eh(raw: float) -> float:
 @router.get("/network/stats", tags=["network"])
 async def get_network_stats():
     """Aggregate Bitcoin network mining stats from the local Mempool node."""
+    if not MEMPOOL_LOCAL:
+        raise HTTPException(status_code=503, detail="MEMPOOL_LOCAL_URL not configured")
     base = MEMPOOL_LOCAL
 
     async with _client() as client:

@@ -26,6 +26,9 @@ services:
       - DB_PATH=/data/soc.db
       - DATUM_ADMIN_USER=${DATUM_ADMIN_USER:-}
       - DATUM_ADMIN_PASS=${DATUM_ADMIN_PASS:-}
+      - ADMIN_API_KEY=${ADMIN_API_KEY:-}
+      - MEMPOOL_LOCAL_URL=${MEMPOOL_LOCAL_URL:-}
+      - DATUM_LOCAL_URL=${DATUM_LOCAL_URL:-}
     volumes:
       - ./config.json:/config/config.json
       - soc-data:/data

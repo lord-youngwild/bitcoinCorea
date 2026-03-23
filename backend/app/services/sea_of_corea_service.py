@@ -24,10 +24,7 @@ _log = logging.getLogger(__name__)
 
 API_BASE = "https://api.ocean.xyz/v1"
 
-DATUM_LOCAL_URL = os.environ.get(
-    "DATUM_LOCAL_URL",
-    "https://ujhd7ivjwisu7c4thp4ksod2eqjjlxoebpiblovfyfy75qltk247i6id.local",
-)
+DATUM_LOCAL_URL = os.environ.get("DATUM_LOCAL_URL", "")
 DATUM_ADMIN_USER = os.environ.get("DATUM_ADMIN_USER", "")
 DATUM_ADMIN_PASS = os.environ.get("DATUM_ADMIN_PASS", "")
 FOUNDATION_DISPLAY_NAME = "Sea of Corea BCP 채굴풀노드"

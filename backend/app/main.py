@@ -78,6 +78,9 @@ app = FastAPI(
     version="2.0.3",
     description="Ocean.xyz mining monitoring dashboard",
     lifespan=lifespan,
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
 )
 
 # Simple in-process API rate limiting (per client IP, fixed 60s window).
@@ -150,7 +153,7 @@ if _frontend_dist.exists():
     # Paths that FastAPI handles natively — must NOT be caught by the SPA fallback.
     # Without this guard the catch-all swallows /docs, /redoc, and /openapi.json before
     # FastAPI's own routing can serve them.
-    _API_DOC_PATHS = {"docs", "redoc", "openapi.json"}
+    _API_DOC_PATHS: set[str] = set()  # docs disabled
 
     # SPA catch-all: any non-API path that isn't a real file → index.html
     @app.get("/{full_path:path}")
