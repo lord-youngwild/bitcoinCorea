@@ -127,19 +127,19 @@ const Card: React.FC<{ title: string; children: React.ReactNode; style?: React.C
   <div style={{
     background: 'var(--bg-card)',
     border: '2px solid var(--border)',
-    padding: '14px',
+    padding: '16px',
     boxShadow: '4px 4px 0 0 rgba(0,0,0,0.5)',
     ...style,
   }}>
     <div style={{
       fontFamily: 'var(--font-pixel)',
-      fontSize: '9px',
+      fontSize: '11px',
       color: 'var(--primary)',
       letterSpacing: '1px',
-      marginBottom: '10px',
+      marginBottom: '12px',
       textShadow: '0 0 6px var(--primary-glow)',
       borderBottom: '1px solid var(--border)',
-      paddingBottom: '6px',
+      paddingBottom: '8px',
     }}>
       {title}
     </div>
@@ -148,14 +148,14 @@ const Card: React.FC<{ title: string; children: React.ReactNode; style?: React.C
 );
 
 const Stat: React.FC<{ label: string; value: React.ReactNode; sub?: string; color?: string }> = ({ label, value, sub, color }) => (
-  <div style={{ marginBottom: '8px' }}>
-    <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', letterSpacing: '1px', marginBottom: '2px' }}>
+  <div style={{ marginBottom: '12px' }}>
+    <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)', letterSpacing: '1px', marginBottom: '3px' }}>
       {label}
     </div>
-    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', color: color || 'var(--text)', fontWeight: 'bold', lineHeight: 1.2 }}>
+    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', color: color || 'var(--text)', fontWeight: 'bold', lineHeight: 1.2 }}>
       {value}
     </div>
-    {sub && <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', marginTop: '2px' }}>{sub}</div>}
+    {sub && <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)', marginTop: '3px' }}>{sub}</div>}
   </div>
 );
 
@@ -253,9 +253,9 @@ export const Network: React.FC = () => {
       legend: {
         labels: {
           color: 'var(--text-dim)',
-          font: { family: 'var(--font-pixel)', size: 8 },
-          boxWidth: 12,
-          padding: 10,
+          font: { family: 'var(--font-pixel)', size: 11 },
+          boxWidth: 14,
+          padding: 12,
         },
       },
       tooltip: {
@@ -264,26 +264,26 @@ export const Network: React.FC = () => {
         borderWidth: 1,
         titleColor: 'var(--primary)',
         bodyColor: 'var(--text)',
-        titleFont: { family: 'var(--font-pixel)', size: 8 },
-        bodyFont: { family: 'var(--font-mono)', size: 10 },
+        titleFont: { family: 'var(--font-pixel)', size: 11 },
+        bodyFont: { family: 'var(--font-mono)', size: 12 },
       },
     },
     scales: {
       x: {
-        ticks: { color: 'var(--text-dim)', font: { family: 'var(--font-pixel)', size: 7 }, maxTicksLimit: 7 },
+        ticks: { color: 'var(--text-dim)', font: { family: 'var(--font-pixel)', size: 10 }, maxTicksLimit: 7 },
         grid: { color: 'rgba(255,255,255,0.04)' },
       },
       y: {
         position: 'left' as const,
-        ticks: { color: 'var(--primary)', font: { family: 'var(--font-mono)', size: 8 } },
+        ticks: { color: 'var(--primary)', font: { family: 'var(--font-mono)', size: 11 } },
         grid: { color: 'rgba(255,255,255,0.04)' },
-        title: { display: true, text: 'EH/s', color: 'var(--primary)', font: { family: 'var(--font-pixel)', size: 7 } },
+        title: { display: true, text: 'EH/s', color: 'var(--primary)', font: { family: 'var(--font-pixel)', size: 10 } },
       },
       y1: {
         position: 'right' as const,
-        ticks: { color: 'var(--color-success)', font: { family: 'var(--font-mono)', size: 8 } },
+        ticks: { color: 'var(--color-success)', font: { family: 'var(--font-mono)', size: 11 } },
         grid: { drawOnChartArea: false },
-        title: { display: true, text: 'T', color: 'var(--color-success)', font: { family: 'var(--font-pixel)', size: 7 } },
+        title: { display: true, text: 'T', color: 'var(--color-success)', font: { family: 'var(--font-pixel)', size: 10 } },
       },
     },
   };
@@ -296,18 +296,18 @@ export const Network: React.FC = () => {
 
       {/* ── 헤더 ── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '11px', color: 'var(--primary)', letterSpacing: '2px', textShadow: '0 0 10px var(--primary-glow)' }}>
+        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '13px', color: 'var(--primary)', letterSpacing: '2px', textShadow: '0 0 10px var(--primary-glow)' }}>
           ▶ BITCOIN NETWORK
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           {lastUpdated && (
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)' }}>
+            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)' }}>
               UPD {lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </span>
           )}
           <button onClick={fetchData} style={{
             background: 'var(--bg-card)', border: '2px solid var(--border)', color: 'var(--text-dim)',
-            fontFamily: 'var(--font-pixel)', fontSize: '8px', padding: '4px 8px', cursor: 'pointer',
+            fontFamily: 'var(--font-pixel)', fontSize: '10px', padding: '5px 10px', cursor: 'pointer',
           }}>⟳ 갱신</button>
         </div>
       </div>
@@ -338,10 +338,10 @@ export const Network: React.FC = () => {
         {/* 난이도 조정 */}
         <Card title="◈ 난이도 조정">
           {/* 진행 바 */}
-          <div style={{ marginBottom: '10px' }}>
+          <div style={{ marginBottom: '12px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)' }}>진행률</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--primary)' }}>{difficulty_adjustment.progress_pct.toFixed(1)}%</span>
+              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)' }}>진행률</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--primary)' }}>{difficulty_adjustment.progress_pct.toFixed(1)}%</span>
             </div>
             <div style={{ height: '6px', background: 'var(--bg)', border: '1px solid var(--border)' }}>
               <div style={{ height: '100%', width: `${difficulty_adjustment.progress_pct}%`, background: 'var(--primary)', boxShadow: '0 0 4px var(--primary-glow)' }} />
@@ -394,7 +394,7 @@ export const Network: React.FC = () => {
                 boxShadow: '0 0 4px rgba(255,199,0,0.5)',
               }} />
             </div>
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', marginTop: '3px', textAlign: 'right' }}>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)', marginTop: '4px', textAlign: 'right' }}>
               {(((210000 - halving.blocks_remaining % 210000) / 210000) * 100).toFixed(1)}% 완료
             </div>
           </div>
@@ -413,16 +413,16 @@ export const Network: React.FC = () => {
 
         {/* 채굴 풀 */}
         <Card title={`◈ 채굴 풀 운영 (1주) — ${mining_pools.pool_count}개 풀`}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {mining_pools.pools.map((pool) => (
               <div key={pool.slug} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', width: '12px', textAlign: 'right', flexShrink: 0 }}>
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)', width: '16px', textAlign: 'right', flexShrink: 0 }}>
                   {pool.rank}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: pool.name.toLowerCase().includes('ocean') ? 'var(--primary)' : 'var(--text)', width: '110px', flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: pool.name.toLowerCase().includes('ocean') ? 'var(--primary)' : 'var(--text)', width: '120px', flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {pool.name}
                 </div>
-                <div style={{ flex: 1, height: '6px', background: 'var(--bg)', border: '1px solid var(--border)' }}>
+                <div style={{ flex: 1, height: '7px', background: 'var(--bg)', border: '1px solid var(--border)' }}>
                   <div style={{
                     height: '100%',
                     width: `${(pool.blockCount / maxBlocks) * 100}%`,
@@ -430,7 +430,7 @@ export const Network: React.FC = () => {
                     opacity: 0.7,
                   }} />
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-dim)', width: '28px', textAlign: 'right', flexShrink: 0 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-dim)', width: '32px', textAlign: 'right', flexShrink: 0 }}>
                   {pool.blockCount}
                 </div>
               </div>
@@ -441,29 +441,29 @@ export const Network: React.FC = () => {
         {/* 최근 블록 */}
         <Card title="◈ 최근 블록">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 60px 50px', gap: '4px', marginBottom: '4px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '76px 1fr 66px 54px', gap: '4px', marginBottom: '6px' }}>
               {['높이', '풀', '보상', '시간'].map((h) => (
-                <div key={h} style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)' }}>{h}</div>
+                <div key={h} style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)' }}>{h}</div>
               ))}
             </div>
             {recent_blocks.map((b) => (
               <div key={b.height} style={{
                 display: 'grid',
-                gridTemplateColumns: '70px 1fr 60px 50px',
+                gridTemplateColumns: '76px 1fr 66px 54px',
                 gap: '4px',
-                padding: '4px 0',
+                padding: '5px 0',
                 borderTop: '1px solid var(--border)',
               }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--primary)' }}>
                   #{b.height.toLocaleString()}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: b.pool.toLowerCase().includes('ocean') ? 'var(--primary)' : 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: b.pool.toLowerCase().includes('ocean') ? 'var(--primary)' : 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {b.pool}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-dim)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-dim)' }}>
                   {b.reward_btc.toFixed(4)}
                 </div>
-                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)' }}>
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '9px', color: 'var(--text-dim)' }}>
                   {timeAgo(b.timestamp)}
                 </div>
               </div>

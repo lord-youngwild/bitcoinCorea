@@ -17,7 +17,7 @@ const NAV_LINKS = [
   { to: '/',        label: 'HOME' },
   { to: '/join',    label: 'JOIN' },
   { to: '/comm',    label: 'COMM' },
-  { to: '/network', label: 'NETWORK' },
+  { to: '/network', label: '⛏ NET' },
 ];
 
 interface Props {
