@@ -32,6 +32,7 @@ services:
         condition: service_healthy
     extra_hosts:
       - "rwbq5qjtjlvuje4d5jrqddzntadcmjnzqkr2bwmmjjnmrey73bjr2iqd.local:192.168.1.15"
+      - "ujhd7ivjwisu7c4thp4ksod2eqjjlxoebpiblovfyfy75qltk247i6id.local:192.168.1.15"
     security_opt:
       - no-new-privileges:true
     healthcheck:

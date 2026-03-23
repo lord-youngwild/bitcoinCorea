@@ -10,6 +10,8 @@
 from __future__ import annotations
 
 import logging
+import os
+import re
 from datetime import datetime, timezone
 from typing import Any, Optional
 
@@ -20,6 +22,26 @@ from app.models import format_hashrate, convert_to_ths
 _log = logging.getLogger(__name__)
 
 API_BASE = "https://api.ocean.xyz/v1"
+
+DATUM_LOCAL_URL = os.environ.get(
+    "DATUM_LOCAL_URL",
+    "https://ujhd7ivjwisu7c4thp4ksod2eqjjlxoebpiblovfyfy75qltk247i6id.local",
+)
+FOUNDATION_DISPLAY_NAME = "Sea of Corea BCP 채굴풀노드"
+
+
+async def _fetch_datum_hashrate() -> Optional[float]:
+    """DATUM 게이트웨이 상태 페이지에서 해시레이트를 TH/s로 반환."""
+    try:
+        async with httpx.AsyncClient(verify=False, timeout=8.0) as client:
+            resp = await client.get(DATUM_LOCAL_URL)
+            resp.raise_for_status()
+            match = re.search(r"Estimated Hashrate.*?<td>([\d.]+)\s*Th/sec", resp.text, re.DOTALL)
+            if match:
+                return float(match.group(1))
+    except Exception as e:
+        _log.debug("DATUM hashrate fetch failed: %s", e)
+    return None
 
 
 async def _fetch_wallet_hashrate(client: httpx.AsyncClient, wallet: str) -> Optional[float]:
@@ -86,20 +108,36 @@ async def get_collective_stats(
         - fetched_at: 조회 시각 (ISO 8601)
         - hashrate_updates: 업데이트된 참가자 해시레이트 {wallet: ths} (DB 업데이트용)
     """
+    # DATUM 파운데이션 노드 해시레이트 (지갑 주소 없음)
+    datum_ths = await _fetch_datum_hashrate()
+
+    foundation_total_ths = datum_ths or 0.0
+    foundation_entry: Optional[dict] = None
+    if datum_ths and datum_ths > 0:
+        val_f, unit_f = format_hashrate(datum_ths)
+        foundation_entry = {
+            "display_name": FOUNDATION_DISPLAY_NAME,
+            "hashrate": val_f,
+            "hashrate_unit": unit_f,
+            "is_foundation": True,
+        }
+
     if not participants:
+        public_list = [foundation_entry] if foundation_entry else []
+        fval, funit = format_hashrate(foundation_total_ths) if foundation_total_ths > 0 else (0.0, "TH/s")
         return {
             "total_participants": 0,
-            "active_participants": 0,
-            "total_hashrate": 0.0,
-            "total_hashrate_unit": "TH/s",
-            "public_participants": [],
+            "active_participants": 1 if foundation_entry else 0,
+            "total_hashrate": fval,
+            "total_hashrate_unit": funit,
+            "public_participants": public_list,
             "fetched_at": datetime.now(timezone.utc).isoformat(),
             "hashrate_updates": {},
         }
 
-    total_ths = 0.0
-    active_count = 0
-    public_list: list[dict] = []
+    total_ths = foundation_total_ths
+    active_count = 1 if foundation_entry else 0
+    public_list: list[dict] = [foundation_entry] if foundation_entry else []
     hashrate_updates: dict[str, float] = {}
 
     async with httpx.AsyncClient(follow_redirects=True) as client:

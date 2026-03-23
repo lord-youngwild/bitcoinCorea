@@ -20,6 +20,7 @@ interface StatsData {
     display_name: string;
     hashrate: number;
     hashrate_unit: string;
+    is_foundation?: boolean;
     wallet?: string;
   }>;
   fetched_at: string;
@@ -396,10 +397,14 @@ export const Landing: React.FC = () => {
                 }}>
                   <span style={{ display:'flex', gap:'12px', alignItems:'center' }}>
                     <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', color:C.textLo, minWidth:'24px' }}>
-                      {String(i + 1).padStart(2, '0')}.
+                      {p.is_foundation ? '★' : String(i).padStart(2, '0') + '.'}
                     </span>
                     <span style={{ display:'flex', flexDirection:'column', gap:'2px' }}>
-                      <span style={{ fontFamily:'var(--font-mono)', fontSize:'14px', color:C.textHi }}>
+                      <span style={{
+                        fontFamily:'var(--font-mono)', fontSize:'14px',
+                        color: p.is_foundation ? 'var(--primary)' : C.textHi,
+                        textShadow: p.is_foundation ? '0 0 8px var(--primary-glow)' : 'none',
+                      }}>
                         {p.display_name}
                       </span>
                       {p.wallet && (
