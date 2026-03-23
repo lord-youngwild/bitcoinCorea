@@ -13,13 +13,13 @@ interface CommLink {
 
 const COMM_LINKS: CommLink[] = [
   {
-    label: 'BITCOIN⚡️CITADEL',
+    label: 'BITCOIN🏰CITADEL',
     url: 'https://discord.com/invite/citadel21',
     desc: '대한민국 비트코인 온리 커뮤니티',
     tags: ['COMMUNITY'],
   },
   {
-    label: 'BTC Store',
+    label: 'BTC⚡️STORE',
     url: 'https://store.btcmap.kr/',
     desc: '비트코인 온라인 스토어',
     tags: ['STORE'],
@@ -28,13 +28,13 @@ const COMM_LINKS: CommLink[] = [
     label: 'CORN🌽WALLET',
     url: 'https://team.oksu.su/ko',
     desc: '로컬 라이트닝 월렛',
-    tags: ['LIGHTNING'],
+    tags: ['LABS'],
   },
   {
-    label: 'COCONUT',
+    label: 'COCONUT🥥WALLET',
     url: 'https://www.coconut.onl/',
     desc: '비트코인 셀프커스터디',
-    tags: ['CUSTODY'],
+    tags: ['LABS'],
   },
   {
     label: 'BITCOIN☕️CAFE',
@@ -58,6 +58,7 @@ const TAG_COLORS: Record<string, string> = {
   STORE:     'rgba(255,200,71,0.9)',
   LIGHTNING: 'rgba(255,230,0,0.95)',
   CUSTODY:   'rgba(255,157,42,0.8)',
+  LABS:      'rgba(147,233,190,0.9)',
   CASTLE: 'rgba(255,180,60,0.9)',
 };
 

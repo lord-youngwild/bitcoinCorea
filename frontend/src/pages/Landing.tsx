@@ -57,14 +57,14 @@ const SOC_QUOTES = [
 const C = {
   void:      '#04060f',
   deep:      '#090e20',
-  glowBlue:  '#20B2AA',
-  glowCyan:  '#20B2AA',
+  glowBlue:  '#93E9BE',
+  glowCyan:  '#93E9BE',
   glowAmber: '#ff9d2a',
   glowGold:  '#ffc847',
   textHi:    '#9adcd8',
   textMd:    '#2e7a76',
   textLo:    '#154a48',
-  panelBg:   'rgba(9,14,32,0.75)',
+  panelBg:   'rgba(9,14,32,0.65)',
 };
 
 
@@ -119,7 +119,7 @@ export const Landing: React.FC = () => {
         .soc-cta-btn {
           position: relative;
           font-family: var(--font-pixel);
-          font-size: clamp(12px, 1.8vw, 15px);
+          font-size: clamp(13px, 1.8vw, 16px);
           letter-spacing: 2px;
           text-transform: uppercase;
           color: ${C.glowAmber};
@@ -159,7 +159,7 @@ export const Landing: React.FC = () => {
           pointer-events: none;
         }
         @media (max-width: 640px) {
-          .soc-cta-btn { font-size: 14px; padding: 14px 28px; }
+          .soc-cta-btn { font-size: 15px; padding: 14px 28px; }
         }
       `}</style>
 
@@ -227,7 +227,7 @@ export const Landing: React.FC = () => {
           </div>
           <div style={{
             fontFamily: 'var(--font-pixel)',
-            fontSize: 'clamp(10px, 1.8vw, 13px)',
+            fontSize: 'clamp(13px, 2.2vw, 17px)',
             color: C.textMd,
             letterSpacing: '4px',
             marginBottom: '40px',
@@ -248,7 +248,7 @@ export const Landing: React.FC = () => {
               fontFamily: 'var(--font-pixel)',
   
               fontSize: 'clamp(9px, 1.5vw, 11px)',
-              color: C.textLo,
+              color: C.textMd,
               letterSpacing: '3px',
               marginBottom: '14px',
             }}>
@@ -300,14 +300,14 @@ export const Landing: React.FC = () => {
               margin: '20px auto 0',
             }}>
               <div style={{ textAlign:'center', padding:'8px 0' }}>
-                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textLo, letterSpacing:'2px', marginBottom:'4px' }}>ACTIVE MINERS</div>
+                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textMd, letterSpacing:'2px', marginBottom:'4px' }}>ACTIVE MINERS</div>
                 <div style={{ fontFamily:'var(--font-vt323)', fontSize:'clamp(22px,5vw,34px)', color:C.glowCyan, textShadow:`0 0 10px rgba(0,212,255,0.5)` }}>
                   {stats?.active_participants ?? '—'}
                 </div>
               </div>
               <div style={{ background:`linear-gradient(to bottom, transparent, rgba(0,212,255,0.2), transparent)`, width:'1px' }} />
               <div style={{ textAlign:'center', padding:'8px 0' }}>
-                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textLo, letterSpacing:'2px', marginBottom:'4px' }}>MEMBERS</div>
+                <div style={{ fontFamily:'var(--font-pixel)', fontSize:'clamp(7px,1.4vw,9px)', color:C.textMd, letterSpacing:'2px', marginBottom:'4px' }}>MEMBERS</div>
                 <div style={{ fontFamily:'var(--font-vt323)', fontSize:'clamp(22px,5vw,34px)', color:C.textMd }}>
                   {stats?.total_participants ?? '—'}
                 </div>
@@ -319,7 +319,7 @@ export const Landing: React.FC = () => {
               <div style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
-                color: C.textLo,
+                color: C.textMd,
                 marginTop: '16px',
                 letterSpacing: '1px',
               }}>
@@ -334,7 +334,7 @@ export const Landing: React.FC = () => {
         {/* 스크롤 힌트 — 히어로 하단 고정 */}
         <div style={{
           position: 'absolute',
-          bottom: '24px',
+          bottom: '0px',
           left: '50%',
           transform: 'translateX(-50%)',
           fontFamily: 'var(--font-pixel)',
@@ -351,16 +351,8 @@ export const Landing: React.FC = () => {
 
       <div className="soc-below-hero">
 
-      {/* ══════════════════════════════════════════════
-          CTA
-          ══════════════════════════════════════════════ */}
-      <section style={{ padding: '64px 16px 48px', textAlign: 'center' }}>
-        <Link to="/join" style={{ textDecoration: 'none' }}>
-          <button className="soc-cta-btn">
-            ▶ 채굴조합 참가하기
-          </button>
-        </Link>
-      </section>
+      {/* 여백 */}
+      <div style={{ height: '40px' }} />
 
       {/* ══════════════════════════════════════════════
           PUBLIC MINERS LIST
@@ -382,11 +374,11 @@ export const Landing: React.FC = () => {
               <span style={{
                 fontFamily: 'var(--font-pixel)',
                 fontWeight: 400,
-                fontSize: '11px',
+                fontSize: '19px',
                 color: C.glowCyan,
                 letterSpacing: '3px',
               }}>
-                ◈ 조합원 명부
+                ◈ 조합원명부
               </span>
             </div>
 
@@ -432,7 +424,7 @@ export const Landing: React.FC = () => {
           단체소개 + 인용구
           ══════════════════════════════════════════════ */}
       <section style={{
-        padding: '0 16px 48px',
+        padding: '0 16px 24px',
         maxWidth: '720px',
         margin: '0 auto',
         width: '100%',
@@ -450,7 +442,7 @@ export const Landing: React.FC = () => {
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: 'clamp(12px, 2vw, 14px)',
+            fontSize: 'clamp(13px, 2vw, 15px)',
             color: C.textHi,
             lineHeight: '2',
             whiteSpace: 'pre-line',
@@ -465,7 +457,7 @@ export const Landing: React.FC = () => {
 
         <div style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: 'clamp(11px, 2vw, 13px)',
+          fontSize: 'clamp(12px, 2vw, 14px)',
           color: C.textMd,
           maxWidth: '560px',
           lineHeight: '2',
@@ -475,6 +467,17 @@ export const Landing: React.FC = () => {
         }}>
           "{SOC_QUOTES[quoteIdx]}"
         </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          CTA
+          ══════════════════════════════════════════════ */}
+      <section style={{ padding: '16px 16px 48px', textAlign: 'center' }}>
+        <Link to="/join" style={{ textDecoration: 'none' }}>
+          <button className="soc-cta-btn">
+            ▶ 채굴조합 참가하기
+          </button>
+        </Link>
       </section>
 
       {/* ══════════════════════════════════════════════

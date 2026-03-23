@@ -59,7 +59,7 @@ export const Join: React.FC = () => {
           color: 'var(--text-dim)',
           lineHeight: '1.8',
         }}>
-          Ocean.xyz 및 Datum 풀마이닝중인 채굴자라면 누구나 참가 가능합니다.<br />
+          Ocean.xyz 및 Datum 풀마이닝중인 채굴자라면 누구나 참여 가능합니다.<br />
           지갑 주소 등록 한 번으로 조합원이 됩니다.
         </div>
       </div>
@@ -158,12 +158,12 @@ export const Join: React.FC = () => {
           color: 'var(--text)',
           lineHeight: '2.4',
           whiteSpace: 'pre-line',
-        }}>{`그 바다는 너무 넓어서
+        }}>{`바다는 너무 넓어서
 자신이 어떤 존재인지 알 수 없었다.
-그래서 바다는 자신을 보기 위해
+그래서 자신을 보기 위해
 수많은 물로 나뉘었다.
 
-그 물방울들은
+물방울들은
 비가 되어 떨어지고
 강이 되어 흐르고
 사람의 눈물이 되기도 했다.
@@ -189,7 +189,7 @@ export const Join: React.FC = () => {
           lineHeight: '2.2',
         }}>
           우리는 물방울처럼 보이지만<br />
-          근원 의식이 자신을 경험하는 한 조각의 신성입니다.
+          근원 의식이 자신을 경험하는 한 줄기 신성입니다.
         </div>
       </div>
 
