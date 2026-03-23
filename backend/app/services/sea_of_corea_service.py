@@ -156,12 +156,15 @@ async def get_collective_stats(
             "members": datum_members,
         }
 
+    foundation_member_count = 1 if foundation_entry else 0  # 파운데이션은 조합원 1명
+    foundation_worker_count = len(datum_members) if datum_members else (1 if foundation_entry else 0)
+
     if not participants:
         public_list = [foundation_entry] if foundation_entry else []
         fval, funit = format_hashrate(foundation_total_ths) if foundation_total_ths > 0 else (0.0, "TH/s")
         return {
-            "total_participants": 0,
-            "active_participants": 1 if foundation_entry else 0,
+            "total_participants": foundation_member_count,
+            "active_participants": foundation_worker_count,
             "total_hashrate": fval,
             "total_hashrate_unit": funit,
             "public_participants": public_list,
@@ -170,7 +173,7 @@ async def get_collective_stats(
         }
 
     total_ths = foundation_total_ths
-    active_count = 1 if foundation_entry else 0
+    active_count = foundation_worker_count
     public_list: list[dict] = [foundation_entry] if foundation_entry else []
     hashrate_updates: dict[str, float] = {}
 
@@ -204,7 +207,7 @@ async def get_collective_stats(
     val, unit = format_hashrate(total_ths) if total_ths > 0 else (0.0, "TH/s")
 
     return {
-        "total_participants": len(participants),
+        "total_participants": len(participants) + foundation_member_count,
         "active_participants": active_count,
         "total_hashrate": val,
         "total_hashrate_unit": unit,
