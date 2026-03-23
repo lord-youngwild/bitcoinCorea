@@ -339,7 +339,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
           color: 'var(--text-dim)',
           letterSpacing: '1px',
         }}>
-          SoC v1.1.1
+          SoC v2.0.0
         </span>
         <a
           href="https://x.com/PromenadeCastle"
