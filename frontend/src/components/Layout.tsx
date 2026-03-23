@@ -14,9 +14,10 @@ import { UpdatePrompt } from './UpdatePrompt';
 import { InstallPrompt } from './InstallPrompt';
 
 const NAV_LINKS = [
-  { to: '/',     label: 'HOME' },
-  { to: '/join', label: 'JOIN' },
-  { to: '/comm', label: 'COMM' },
+  { to: '/',        label: 'HOME' },
+  { to: '/join',    label: 'JOIN' },
+  { to: '/comm',    label: 'COMM' },
+  { to: '/network', label: 'NETWORK' },
 ];
 
 interface Props {
