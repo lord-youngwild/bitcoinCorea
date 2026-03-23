@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
 import re
@@ -27,6 +28,8 @@ DATUM_LOCAL_URL = os.environ.get(
     "DATUM_LOCAL_URL",
     "https://ujhd7ivjwisu7c4thp4ksod2eqjjlxoebpiblovfyfy75qltk247i6id.local",
 )
+DATUM_ADMIN_USER = os.environ.get("DATUM_ADMIN_USER", "")
+DATUM_ADMIN_PASS = os.environ.get("DATUM_ADMIN_PASS", "")
 FOUNDATION_DISPLAY_NAME = "Sea of Corea BCP 채굴풀노드"
 
 
@@ -42,6 +45,33 @@ async def _fetch_datum_hashrate() -> Optional[float]:
     except Exception as e:
         _log.debug("DATUM hashrate fetch failed: %s", e)
     return None
+
+
+async def _fetch_datum_members() -> list[str]:
+    """DATUM /clients 페이지에서 고유 worker name 또는 지갑 마지막 4자리 반환."""
+    if not DATUM_ADMIN_USER or not DATUM_ADMIN_PASS:
+        return []
+    try:
+        auth = httpx.DigestAuth(DATUM_ADMIN_USER, DATUM_ADMIN_PASS)
+        async with httpx.AsyncClient(verify=False, timeout=8.0, auth=auth) as client:
+            resp = await client.get(f"{DATUM_LOCAL_URL}/clients")
+            resp.raise_for_status()
+            rows = re.findall(
+                r'<TR><TD>(\d+/\d+)</TD><TD>[^<]+</TD><TD>([^<]+)</TD>',
+                resp.text,
+            )
+            seen: list[str] = []
+            seen_set: set[str] = set()
+            for _, username in rows:
+                wallet, _, worker = username.partition(".")
+                label = worker.strip() if worker.strip() else wallet[-4:]
+                if label and label not in seen_set:
+                    seen_set.add(label)
+                    seen.append(label)
+            return seen
+    except Exception as e:
+        _log.debug("DATUM members fetch failed: %s", e)
+    return []
 
 
 async def _fetch_wallet_hashrate(client: httpx.AsyncClient, wallet: str) -> Optional[float]:
@@ -108,8 +138,11 @@ async def get_collective_stats(
         - fetched_at: 조회 시각 (ISO 8601)
         - hashrate_updates: 업데이트된 참가자 해시레이트 {wallet: ths} (DB 업데이트용)
     """
-    # DATUM 파운데이션 노드 해시레이트 (지갑 주소 없음)
-    datum_ths = await _fetch_datum_hashrate()
+    # DATUM 파운데이션 노드 해시레이트 + 조합원 목록
+    datum_ths, datum_members = await asyncio.gather(
+        _fetch_datum_hashrate(),
+        _fetch_datum_members(),
+    )
 
     foundation_total_ths = datum_ths or 0.0
     foundation_entry: Optional[dict] = None
@@ -120,6 +153,7 @@ async def get_collective_stats(
             "hashrate": val_f,
             "hashrate_unit": unit_f,
             "is_foundation": True,
+            "members": datum_members,
         }
 
     if not participants:

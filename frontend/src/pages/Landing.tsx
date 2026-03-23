@@ -21,6 +21,7 @@ interface StatsData {
     hashrate: number;
     hashrate_unit: string;
     is_foundation?: boolean;
+    members?: string[];
     wallet?: string;
   }>;
   fetched_at: string;
@@ -407,7 +408,12 @@ export const Landing: React.FC = () => {
                       }}>
                         {p.display_name}
                       </span>
-                      {p.wallet && (
+                      {p.is_foundation && p.members && p.members.length > 0 && (
+                        <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', color:C.textLo, letterSpacing:'0.5px' }}>
+                          ({p.members.join(', ')})
+                        </span>
+                      )}
+                      {!p.is_foundation && p.wallet && (
                         <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', color:C.textLo, letterSpacing:'0.5px' }}>
                           {p.wallet}
                         </span>
