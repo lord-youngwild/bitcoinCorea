@@ -414,7 +414,7 @@ export const Network: React.FC = () => {
         {/* 채굴 풀 */}
         <Card title={`◈ 채굴 풀 운영 (1주) — ${mining_pools.pool_count}개 풀`}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {mining_pools.pools.slice(0, 10).map((pool) => (
+            {mining_pools.pools.map((pool) => (
               <div key={pool.slug} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', width: '12px', textAlign: 'right', flexShrink: 0 }}>
                   {pool.rank}
@@ -435,11 +435,6 @@ export const Network: React.FC = () => {
                 </div>
               </div>
             ))}
-            {mining_pools.pools.length > 10 && (
-              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: 'var(--text-dim)', textAlign: 'center', marginTop: '4px' }}>
-                +{mining_pools.pools.length - 10}개 풀 더 있음
-              </div>
-            )}
           </div>
         </Card>
 
